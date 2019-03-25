@@ -1,1 +1,48 @@
-Gary Daniel Burns - Milestones
+Gary Daniel Burns - Milestones - Last Edit: 3/25/2019
+
+
+
+Goal: Use machine learning from the standard python library and our own implementation to perform classification of stock data, based on metrics developed by us.  We just want to learn about ML.
+
+
+
+40 Point Breakdown:
+
+5 - Quality and Scope of data pulled (To keep the project from being an exercise in 'Garbage in, Garbage out) [I'm giving this a lower weight because I successfully pulled some data already]
+
+8 - Implementation of python KNN/SVM classification algorithm [Medium weighting because it will be the bulk of the project in conjunction with our implementation]
+
+8 - Implementation of our KNN/SVM classification algorithm (This will be the difficult part/time hole) [Medium weighting for same reason given above]
+
+19 - Quality of analysis of differences among original python code, C++(?), and existing python library ML, in conjunction with evaluation of what the students learned about ML, regardless of success of program(Categorization/Classification is our focus as of now) [High weighting because analysis and learning about ML are our goals]
+
+
+
+To Do List (Draft from Lab): [NOTE: things marked complete have been done by any/all of us three members, not solely me]
+
+Set-Up - Complete; Got a git repo up and running, downloaded all necessary python environment/libraries needed up to this point, made everyone an empty text file for milestones, got time sheet started
+
+Pull data - Completed proof of concept; used Yahoo stock API via python to get open, close, adj close, volume of sales for specific company (WMT) over given date range and put them in csv file. Still need to 
+	create a full bank and isolate useful numbers
+
+Research SciPy Machine Learning Algorithms - Incomplete; we are thinking implement KNN and SVM. KNN is proof of concept and data quality with a simpler algorithm.
+
+Specify our metrics for classification - Incomplete; we have talked broadly about how to determine volatile, profitable, etc.
+
+Pre-Process the data for mean, std dev., etc to implement our own volatility index, value index, etc - Incomplete
+
+Implement KNN on our stock data using availble lib - Incomplete; using pandas, scipy, etc.
+
+Write our own KNN implementation - Incomplete
+
+Implement SVM on our stock Data - Incomplete
+
+Write our own SVM implementation (Naive Bayesion?) - Incomplete; this is ambitious, but if we get KNN done and need more to do, this will be next
+
+Perform Analysis on our Algorithms and the quality of our inputs and outputs - Incomplete; determine what we learned, what can be improved, and if this is a useful piece of code.  What is next for the alg?
+
+
+
+Compilable tasks so far worked on by GDB:
+
+dataClean.py - pulled some code and sifted through it with a few alterations to take data from the now-defunct yahoo stock api and format it in a csv file
