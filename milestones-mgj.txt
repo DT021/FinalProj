@@ -1,1 +1,24 @@
 Matthew Gray Jones - Milestones
+
+40 PT Rubric
+
+20 - Students show that a significant amount of understanding has been gained about their desired subject area.
+10 - Significant amount of effort and time has been put into the project
+10 - Code compiles and implements a specific goal in the desired subject area
+
+Compliable task:
+1. Found method to log time spent on the project and distributed this method
+2. Found K Nearest Neighbor algorithm to classsify data in a more simple way
+ 
+
+To do:
+1. Ensure that the proper libraries are installed and that we understand how to use them.
+2. Find API with daily stock data. It needs parameters such as volume, opening price, closing price, and adjusted closing price.
+3. Define specific classification for a stock depending on parameters such as those listed in 1.
+4. Understand K Nearest Neighbor algorithm and implement this on the stock data to predict classes.
+5. Pre process data
+6. Implement our own KNN on our data
+7. Implement our own SVM on our data
+
+
+
