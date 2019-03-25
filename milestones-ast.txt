@@ -2,13 +2,9 @@ Alexander S. Twilla - Milestones
 
 40 Point Rubric
 
-	20 Points - Students demonstrate a thorough understanding of the algorithms 
-		that they implemented.
+	30 Points - The regression algorithms work and produce reasonable results.
 
-	15 Points - The algorithms produce reasonable results and give useful 
-		information.
-
-	5 Points - The code is well-formated and easily understandable.
+	10 Points - The code is well-formated and easily understandable.
 
 Compilable Task
 
@@ -18,8 +14,4 @@ To-Do
 
 	1. Complete linear regression algorithms.
 	2. Determine data source(s).
-	3. Study rudimentary classification and clustering algorithms.
-	4. Determine parameters to be used in classification algorithm.
-	5. Determine types to be used in classification.
-	6. Write classification algorithm.
-	7. Write clustering algorithm.
+	3. Test linear regression algorithms.
