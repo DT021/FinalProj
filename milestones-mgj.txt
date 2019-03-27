@@ -22,3 +22,16 @@ To do:
 
 
 
+Real to do:
+1. Calculate Standard Deviation of stock over time period in percent of average stock price over that period and compare to S&P 500 to have a 
+volitility check
+2. Learn more about Fibonnacci retrace and how to implement it https://www.investopedia.com/terms/f/fibonacciretracement.asp
+3. Think about how an all time average/all time low could tell something about a stock
+	- Potentially the number of stocks above a retrace or the number of stocks below a certain retrace
+4. moving averages? exponential, simple, etc 
+
+
+potential Problems:
+1. Does not account for when a company divides its stocks into smaller stocks
+2. Does not account for huge growth and huge dip in same period
+

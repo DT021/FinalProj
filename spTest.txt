@@ -1,0 +1,9 @@
+#Five companies listed in a 6 month period
+
+01 01 2019 07 01 2018
+
+ECL
+LH
+PFG
+CLX
+WMT
