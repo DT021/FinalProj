@@ -17,9 +17,10 @@ n = len(days[1500:])
 x = np.array((days[1500:]))
 yTrain = np.array((highs[1500:]))
 
-m, b, R2 = linReg(x, yTrain)
-
+m, b = linReg(x, yTrain)
 y = m * x + b
+R2 = calcR2(yTrain, y)
+
 print("Slope:", m)
 print("R2:", R2)
 

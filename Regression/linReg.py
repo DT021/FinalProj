@@ -12,10 +12,10 @@ def calcR2(y, yTest):
 	return R2
 
 def linReg(x, y, alpha=0.0000001, epochs=10000):
-	"""Return the slope, y intercept and R2 of a regression line 
+	"""Return the slope and y intercept of a regression line 
 	built on the given data.
 	
-	x, y = np arrays
+	x, y = np float arrays
 	alpha = float
 	epochs = int
 	"""
@@ -28,9 +28,8 @@ def linReg(x, y, alpha=0.0000001, epochs=10000):
 		yTest = m * x + b
 		error = yTest - y
 
+		# Adjust slope and y intercept based on error gradient.
 		m -= alpha * 2 * np.sum(error * x) / n
 		b -= alpha * 2 * np.sum(error) / n
 
-	mSqrErr = np.sum(error ** 2) / n
-
-	return m, b, calcR2(y, yTest)
+	return m, b
