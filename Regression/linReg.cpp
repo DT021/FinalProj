@@ -38,7 +38,7 @@ pair<float, float> linReg (vector<float> &x, vector<float> &y, float alpha=0.000
 	return make_pair(m, b);
 }
 
-float calcR2 (vector<float> &y, vector<float> &yTest) {
+pair<float, float> calcR2Avg (vector<float> &y, vector<float> &yTest) {
 	/* Calculate the R-squared value for a given set of predictions.*/
 
 	float ssRes = 0, ssTot = 0, R2, avg = 0;
@@ -58,7 +58,12 @@ float calcR2 (vector<float> &y, vector<float> &yTest) {
 
 	R2 = 1 - ssRes/ssTot;
 
-	return R2;
+	pair<float, float> R2Avg;
+
+	R2Avg.first = R2;
+	R2Avg.second = avg;
+
+	return R2Avg;
 }
 
 int main() {
@@ -76,8 +81,8 @@ int main() {
 		yTest.push_back(line.first * x[i] + line.second);
 	}
 
-	float R2 = calcR2(y, yTest);
+	pair<float, float> R2Avg = calcR2Avg(y, yTest);
 
 	printf("Slope: %f\nY Intercept: %f\n", line.first, line.second);
-	printf("R2: %f\n", R2);
+	printf("R2: %f AVG:%f\n", R2Avg.first, R2Avg.second);
 }
