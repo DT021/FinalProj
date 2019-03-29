@@ -2,49 +2,77 @@
 
 # Courtesy of Red Gate Software Tutorial on using the Yahoo Stock API
 
-#import external pandas_datareader library with alias of web
+import pandas as pd
+
+# Import external pandas_datareader library with alias of web
 import pandas_datareader as web
  
-#import datetime internal datetime module
-#datetime is a Python module
+# Import datetime internal datetime module datetime is a Python module
 import datetime
  
-#datetime.datetime is a data type within the datetime module yy/mm/dd
+# Datetime.datetime is a data type within the datetime module yy/mm/dd
 
-# Get user input
-ticker = input("Input company ticker\n")
-sYear, sMonth, sDay  = map(int, input("Input start date yyyy mm dd\n").split())
-eYear, eMonth, eDay = map(int, input("Input end date yyyy mm dd\n").split())
+import sys
 
-startDate = datetime.datetime(sYear, sMonth, sDay)
-endDate = datetime.datetime(eYear, eMonth, eDay)
+#with open(sys.argv[1]) as file:
+#    fileContents = file.read()
+#    print(fileContents)
+
+file = open(sys.argv[1])
+
+lineCount = 0
+
+line = file.readline()
+
+while line:
+
+    if lineCount == 0:
+
+        # Get user input
+        sYear, sMonth, sDay, eYear, eMonth, eDay = line.split()
+
+#        ticker = input("Input company ticker\n")
+#        sYear, sMonth, sDay  = map(int, input("Input start date yyyy mm dd\n").split())
+#        eYear, eMonth, eDay = map(int, input("Input end date yyyy mm dd\n").split())
+
+        startDate = datetime.datetime(int(sYear), int(sMonth), int(sDay))
+        endDate = datetime.datetime(int(eYear), int(eMonth), int(eDay))
+
+        lineCount = lineCount + 1
+
+    else:
  
-#DataReader method name is case sensitive
-df = web.DataReader(ticker, 'yahoo', startDate, endDate)
+        ticker = line.replace('\n','') 
+
+        # DataReader method name is case sensitive
+        df = web.DataReader(ticker, 'yahoo', startDate, endDate)
  
-#invoke to_csv for df dataframe object from 
-#DataReader method in the pandas_datareader library
+        # Invoke to_csv for df dataframe object from DataReader method in the pandas_datareader library
  
-#..\first_yahoo_prices_to_csv_demo.csv must not
-#be open in another app, such as Excel
+        # ..\first_yahoo_prices_to_csv_demo.csv must not be open in another app, such as Excel
+        
+        fileName = ticker + sYear + sMonth + sDay + '_' + eYear + eMonth + eDay + '.csv'
 
-df.to_csv('testWMT00_18.csv')
+#        df.to_csv('testWMT00_18.csv')
+        df.to_csv('Data/'+fileName)
+        
+        # Test reading lines
 
-# Test reading line titles
-# CSV reading info courtesy of realpython.com
+        colnames = ['date', 'value', 'high', 'low', 'open', 'close', 'volume', 'adjClose']
+#        csvFile = pd.read_csv('testWMT00_18.csv', names=colnames, skiprows = 1)
+        csvFile = pd.read_csv('Data/'+fileName, names = colnames, skiprows = 1)
 
-import csv
+        date = csvFile.date.tolist()
+        value = csvFile.value.tolist()
+        high = csvFile.high.tolist()
+        low = csvFile.low.tolist()
+        open = csvFile.open.tolist()
+        close = csvFile.close.tolist()
+        volume = csvFile.volume.tolist()
+        adjClose = csvFile.adjClose.tolist()
 
-pre_allocated_list = [None] * size
+        lineCount = lineCount + 1
 
-with open('testWMT00_18.csv') as csv_file:
-    csv_reader = csv.reader(csv_file, delimiter=',')
-    line_count = 0
-    for row in csv_reader:
-        if line_count == 0:
-            print(f'Column names are {", ".join(row)}')
-            line_count += 1
-#       else:
-#            print(f'\t{row[0]} works in the {row[1]} department, and was born in {row[2]}.')
-#            line_count += 1
-    print(f'Processed {line_count} lines.')
+    line = file.readline()
+
+file.close()
