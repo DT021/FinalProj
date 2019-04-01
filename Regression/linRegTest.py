@@ -10,8 +10,8 @@ highs = []
 
 with open("test-data", "r") as data:
 	for line in data:
-		days.append(float(line.split(",")[0].strip()))
-		highs.append(float(line.split(",")[1].strip()))
+		days.append(float(line.split(" ")[0].strip()))
+		highs.append(float(line.split(" ")[1].strip()))
 
 n = len(days[1500:])
 x = np.array((days[1500:]))
