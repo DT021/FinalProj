@@ -76,3 +76,7 @@ while line:
     line = file.readline()
 
 file.close()
+
+# How to strip last character
+#line = file.readline()
+#line = line[:-1]
