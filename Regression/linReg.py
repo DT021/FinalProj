@@ -11,6 +11,9 @@ def calcR2(y, yTest):
 
 	return R2
 
+def calcAvgError(y, yTest):
+	return np.average(np.sqrt((y - yTest) ** 2))
+
 def linReg(x, y, alpha=0.0000001, epochs=10000):
 	"""Return the slope and y intercept of a regression line 
 	built on the given data.
