@@ -1,0 +1,6 @@
+#!/bin/bash
+
+echo Starting to bash...
+
+
+echo Bashed...
