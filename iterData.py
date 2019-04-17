@@ -41,8 +41,11 @@ while line:
         lineCount = lineCount + 1
 
     else:
- 
+
         ticker = line.replace('\n','') 
+
+#        print(ticker)
+#        print("\n")
 
         # DataReader method name is case sensitive
         df = web.DataReader(ticker, 'yahoo', startDate, endDate)
@@ -58,18 +61,17 @@ while line:
         
         # Test reading lines
 
-        colnames = ['date', 'value', 'high', 'low', 'open', 'close', 'volume', 'adjClose']
-#        csvFile = pd.read_csv('testWMT00_18.csv', names=colnames, skiprows = 1)
-        csvFile = pd.read_csv('Data/'+fileName, names = colnames, skiprows = 1)
+#        colnames = ['date', 'value', 'high', 'low', 'open', 'close', 'volume', 'adjClose']
+#        csvFile = pd.read_csv('Data/'+fileName, names = colnames, skiprows = 1)
 
-        date = csvFile.date.tolist()
-        value = csvFile.value.tolist()
-        high = csvFile.high.tolist()
-        low = csvFile.low.tolist()
-        open = csvFile.open.tolist()
-        close = csvFile.close.tolist()
-        volume = csvFile.volume.tolist()
-        adjClose = csvFile.adjClose.tolist()
+#        date = csvFile.date.tolist()
+#        value = csvFile.value.tolist()
+#        high = csvFile.high.tolist()
+#        low = csvFile.low.tolist()
+#        open = csvFile.open.tolist()
+#        close = csvFile.close.tolist()
+#        volume = csvFile.volume.tolist()
+#        adjClose = csvFile.adjClose.tolist()
 
         lineCount = lineCount + 1
 
