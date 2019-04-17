@@ -1,8 +1,18 @@
         
 def parameter1( volList ):
 
-	for i in volList
+	avg = volList[-1]
+	volaAvg = 0
 
+	for i in range(len(volList) - 1):
+		volaAvg += abs( volList[i] - (volList[i + 1]) )
 		
+		avg += volList[i]
+		
+	avg = avg / len(volList)
+	volaAvg	= volaAvg / (len(volList) - 1)
 
-	return 
+	volaPercent = volaAvg / avg	
+
+	return volaPercent
+
