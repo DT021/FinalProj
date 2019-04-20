@@ -1,4 +1,3 @@
-        
 def parameter1( volList ):
 
 	avg = volList[-1]

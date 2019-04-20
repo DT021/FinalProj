@@ -1,6 +1,6 @@
 import pandas as pd
-import parameter1.py as p1
-
+import parameter1 as p1
+import glob
 
 def parMain( fileName ):
 
@@ -16,6 +16,19 @@ def parMain( fileName ):
         volume = csvFile.volume.tolist()
         adjClose = csvFile.adjClose.tolist()
 
+        volParam = p1.parameter1(volume)
+
+        # Probably should return all params as a list for easy writing to file
+        return volParam
+
 
 
         return
+
+# List all files in the Data Directory
+fileList = glob.glob("../Data/*.csv")
+
+for fileName in fileList:
+    params = parMain(fileName)
+    print(params)
+    print("\n")
