@@ -74,7 +74,7 @@ float calcAvg (vector<float> &y) {
 	return avg;
 }
 
-int main() {
+/*int main() {
 		vector<float> x, y, yTest;
 
 		// Test algorith on y = x^2 over [0, 99].
@@ -94,3 +94,4 @@ int main() {
 		printf("Slope: %f\nY Intercept: %f\n", line.first, line.second);
 		printf("R2: %f AVG:%f\n", R2, avg);
 }
+*/
