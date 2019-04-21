@@ -44,8 +44,8 @@ while line:
 
         ticker = line.replace('\n','') 
 
-#        print(ticker)
-#        print("\n")
+        print(ticker)
+        print("\n")
 
         # DataReader method name is case sensitive
         df = web.DataReader(ticker, 'yahoo', startDate, endDate)
@@ -57,8 +57,9 @@ while line:
         fileName = ticker + sYear + sMonth + sDay + '_' + eYear + eMonth + eDay + '.csv'
 
 #        df.to_csv('testWMT00_18.csv')
-        df.to_csv('Data/'+fileName)
-        
+#        df.to_csv('Data/'+fileName)
+        df.to_csv('VolData/'+fileName)
+
         # Test reading lines
 
 #        colnames = ['date', 'value', 'high', 'low', 'open', 'close', 'volume', 'adjClose']
