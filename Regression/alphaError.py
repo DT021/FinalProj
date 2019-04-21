@@ -13,5 +13,7 @@ with open("alphaErrorData.txt", "r") as data:
 start = 300
 end = 330
 
-plt.plot(alphas[start:end], avgErrors[start:end])
+plt.plot(alphas[start:end], avgErrors[start:end], color="red", label="Average Error")
+plt.legend()
+plt.title("Average Error as a Function of Learning Rate")
 plt.show()
