@@ -2,11 +2,11 @@ import pandas as pd
 import parameter1 as p1
 import glob
 
-def parMain( fileName ):
+def parMain(fileName):
 
         colnames = ['date', 'value', 'high', 'low', 'open', 'close', 'volume', 'adjClose']
 #        csvFile = pd.read_csv('../Data/'+fileName, names = colnames, skiprows = 1)
-        csvFile = pd.read_csv('../VolData/'+fileName, names = colnames, skiprows = 1)
+        csvFile = pd.read_csv(fileName, names = colnames, skiprows = 1)
         date = csvFile.date.tolist()
         value = csvFile.value.tolist()
         high = csvFile.high.tolist()
@@ -22,14 +22,20 @@ def parMain( fileName ):
         return volParam
 
 
-
-        return
-
 # List all files in the Data Directory
-#fileList = glob.glob("../Data/*.csv")
-fileList = glob.glob("../VolData/*.csv")
+fileListSP = glob.glob("Data/*.csv")
+fileListVol = glob.glob("VolData/*.csv")
 
-for fileName in fileList:
-    params = parMain(fileName)
-    print(params)
-    print("\n")
+openFile = open(r"params.txt", "a")
+
+for fileName in fileListSP:
+    paramsSP = parMain(fileName)
+    L = [str(paramsSP), " Non-volatile\n"]
+    openFile.writelines(L)
+
+for fileName in fileListVol:
+    paramsVol = parMain(fileName)
+    L = [str(paramsVol), " Volatile\n"]
+    openFile.writelines(L)
+
+openFile.close()

@@ -160,10 +160,39 @@ void KNNClassifier::print(){
 	return;
 }
 
-int main(){
+int main(int argc, char *argv[]){
 
 	KNNClassifier* KNNptr = new KNNClassifier;
 
+	int k = atoi(argv[1]);
+
+	vector< vector<double> > xTrain;
+	vector<string> yTrain;
+	
+	// This must be altered with more params
+	double parameter = 0;
+	vector<double> paramVec;
+	string classification = "";
+	while(cin >> parameter >> classification){
+		paramVec.push_back(parameter);
+		xTrain.push_back(paramVec);
+		yTrain.push_back(classification);
+		paramVec.clear();
+	}
+
+	KNNptr->_init_(xTrain, yTrain, k);
+	KNNptr->print();
+
+	vector< vector<double> > xTest = {{0.00},{0.01},{0.02},{0.03},{0.04},{0.05},{0.06},{0.07},{0.08},{0.09},{0.10}};
+
+	vector<string> classes = KNNptr->classify(xTest);
+
+	for(unsigned int i = 0; i < classes.size(); i++){
+		cout << xTest[i][0] << " " << classes[i] << endl;
+	}
+	cout << endl;
+
+/*
 	vector< vector<double> > xTrain = {{1,2,3,3},{1,4,3,5},{29,15,19,12},{89,69,54,73},{76,100,99,80}};
 	vector <string> yTrain = {"Good","Good","Okay","Bad","Bad"};
 	
@@ -197,6 +226,7 @@ int main(){
 	}
 	cout << endl;
 
+*/
 	delete KNNptr;	
 
 	return 0;
