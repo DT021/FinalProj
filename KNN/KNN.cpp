@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <iostream>
 #include <vector>
 #include <string>
@@ -84,7 +85,7 @@ void KNNClassifier::clearData(vector< vector<double> > newX, vector<string> newY
 
 vector<string> KNNClassifier::classify(vector< vector<double> > testX){
 	
-	vector<string> classes = {};
+	vector<string> classes;
 
 	multimap<double, string> distances;
 	map<string, double> votes;
