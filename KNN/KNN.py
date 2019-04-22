@@ -40,8 +40,8 @@ class KNNClassifier():
 		""" Classify a given array of independent variables. Return a 1D numpy 
 		array of the results. x must be a 2D numpy array of shape (n, 1)."""
 
-		predictions = [0 for i in range(x.shape[0])]
-		
+		predictions = np.zeros(x.shape[0], self.yTrain.dtype)
+
 		votes = {}
 
 		# Calculate Euclidian distance from every test point to every training 
@@ -77,8 +77,8 @@ class KNNClassifier():
 
 
 
-# knn = KNNClassifier(np.arange(5).reshape(5, 1), np.array(["Less than five" for i in range(5)]))
-# knn.addData(np.arange(6, 11).reshape(5, 1), np.array(["Greater than five" for i in range(5)]))
+#knn = KNNClassifier(np.arange(5).reshape(5, 1), np.array(["Less than five" for i in range(5)]))
+#knn.addData(np.arange(6, 11).reshape(5, 1), np.array(["Greater than five" for i in range(5)]))
 
 # xTest = np.array([[1], [4], [7], [10]])
 # yTest = knn.classify(xTest)

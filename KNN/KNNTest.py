@@ -31,8 +31,8 @@ for i in range(total):
 	if scikitPred[i] == actuals[i]:
 		scikitCorrect += 1
 
-#print("Our Accuracy:", (ourCorrect / total) * 100, "percent")
-#print("Scikit Accuracy:", (scikitCorrect / total) * 100, "percent")
+# print("Our Accuracy:", (ourCorrect / total) * 100, "percent")
+# print("Scikit Accuracy:", (scikitCorrect / total) * 100, "percent")
 print("Actuals: ")
 print(actuals)
 print("Scikit Predictions: ")
