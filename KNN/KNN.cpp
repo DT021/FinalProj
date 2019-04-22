@@ -102,12 +102,12 @@ vector<string> KNNClassifier::classify(vector< vector<double> > testX){
 		int counter = 0;
 
 		// TEST
-		while(mmit != distances.end()){
-			cout << mmit->first << " " << mmit->second << endl;
-			mmit++;
-		}
-		cout << endl;
-		mmit = distances.begin();
+//		while(mmit != distances.end()){
+//			cout << mmit->first << " " << mmit->second << endl;
+//			mmit++;
+//		}
+//		cout << endl;
+//		mmit = distances.begin();
 
 		while(counter < k){
 			votes[mmit->second]++;
@@ -160,6 +160,37 @@ void KNNClassifier::print(){
 	return;
 }
 
+void trainInit(vector< vector<double> > &xTrain, vector<string> &yTrain, vector< vector<double> > &xTest){
+	
+	double param1, param2, param3;
+	vector<double> paramVec;
+	string classification;
+	while(cin >> param1 >> param2 >> param3 >> classification){
+
+		if(param1 == 777){
+			break;
+		}
+
+		paramVec.push_back(param1);
+		paramVec.push_back(param2);
+		paramVec.push_back(param3);
+		xTrain.push_back(paramVec);
+		yTrain.push_back(classification);
+		paramVec.clear();
+	}
+
+	paramVec.clear();
+	while(cin >> param1 >> param2 >> param3){
+		paramVec.push_back(param1);
+		paramVec.push_back(param2);
+		paramVec.push_back(param3);
+		xTest.push_back(paramVec);
+		paramVec.clear();
+	}
+
+	return;
+}
+
 int main(int argc, char *argv[]){
 
 	KNNClassifier* KNNptr = new KNNClassifier;
@@ -170,27 +201,38 @@ int main(int argc, char *argv[]){
 	vector<string> yTrain;
 	
 	// This must be altered with more params
-	double parameter = 0;
-	vector<double> paramVec;
-	string classification = "";
-	while(cin >> parameter >> classification){
-		paramVec.push_back(parameter);
-		xTrain.push_back(paramVec);
-		yTrain.push_back(classification);
-		paramVec.clear();
-	}
+//	double parameter = 0;
+//	vector<double> paramVec;
+//	string classification = "";
+//	while(cin >> parameter >> classification){
+//		paramVec.push_back(parameter);
+//		xTrain.push_back(paramVec);
+//		yTrain.push_back(classification);
+//		paramVec.clear();
+//	}
+
+	vector< vector<double> > xTest;
+
+	trainInit(xTrain, yTrain, xTest);
 
 	KNNptr->_init_(xTrain, yTrain, k);
-	KNNptr->print();
 
-	vector< vector<double> > xTest = {{0.00},{0.01},{0.02},{0.03},{0.04},{0.05},{0.06},{0.07},{0.08},{0.09},{0.10}};
+//	KNNptr->print();
+
+//	vector< vector<double> > xTest = {{0.00},{0.01},{0.02},{0.03},{0.04},{0.05},{0.06},{0.07},{0.08},{0.09},{0.10}};
 
 	vector<string> classes = KNNptr->classify(xTest);
 
+	cout << "Our C++ Predictions: " << endl;
+	cout << "[";
+
 	for(unsigned int i = 0; i < classes.size(); i++){
-		cout << xTest[i][0] << " " << classes[i] << endl;
+		cout /*<< xTest[i][0] */<< classes[i];
+		if(i != classes.size()-1){
+			cout << " ";
+		}
 	}
-	cout << endl;
+	cout << "]" << endl;
 
 /*
 	vector< vector<double> > xTrain = {{1,2,3,3},{1,4,3,5},{29,15,19,12},{89,69,54,73},{76,100,99,80}};
