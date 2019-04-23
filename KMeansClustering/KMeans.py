@@ -8,6 +8,7 @@ class KMeansCluster():
 
 	def __init__(self, data):
 		self.data = data
+		self.groups = np.zeros(data.shape[0], dtype='int32')
 		self.groupCenters = np.array([])
 
 	def addData(self, newData):
@@ -23,33 +24,35 @@ class KMeansCluster():
 		self.data = newData
 
 	def cluster(self, numGroups, epochs=10000, maxRand=1, minRand=0, logEpochs=False):
-		self.groupCenters = np.random.rand(numGroups, self.data.shape[1]) * maxRand
+		self.groupCenters = np.random.rand(numGroups, self.data.shape[1]) * (maxRand - minRand) + minRand
 		
-		for i in range(epochs):
+		for epoch in range(epochs):
 			groupPoints = []
 
 			for group in range(numGroups):
 				groupPoints.append([])
 
 			# Calculate distance from each point to each group center.
-			for point in self.data:
+			for i in range(self.data.shape[0]):
+			#for point in self.data:
 				distances = []
 				distance = 0
 
 				for j in range(self.groupCenters.shape[0]):
 					distance = 0
 
-					for k in range(point.shape[0]):
-						distance += (point[k] - self.groupCenters[j][k]) ** 2
+					for k in range(self.data[i].shape[0]):
+						distance += (self.data[i][k] - self.groupCenters[j][k]) ** 2
 
 					distance = math.sqrt(distance)
 					distances.append([j, distance])
 
 				# Set point's group to closest group center
 				group = sorted(distances, key=lambda elem: elem[1])[0][0]
+				self.groups[i] = group
 				#print(group)
 				# Add point vector to group list for later averaging.
-				groupPoints[group].append(point)
+				groupPoints[group].append(self.data[i])
 
 			# Change group centers to average of all vectors belonging to that group.
 			for j in range(numGroups):
@@ -66,11 +69,19 @@ class KMeansCluster():
 						self.groupCenters[j][k] = pointSum / len(points)
 
 	def graphData(self):
-		pass
+		colors = ["blue", "green", "purple"]
+
+		for i in range(self.data.shape[0]):
+			plt.scatter(self.data[i][0], self.data[i][1], color=colors[self.groups[i]])
+
+		plt.scatter(self.groupCenters[...,0], self.groupCenters[...,1], color="red")
+
+		plt.show()
 
 
 
 iris = datasets.load_iris()
 kmeans = KMeansCluster(iris.data[...,:2])
-kmeans.cluster(3, epochs=100, maxRand=5)
+kmeans.cluster(3, epochs=100, maxRand=5, minRand=2)
+print(kmeans.groups)
 kmeans.graphData()
