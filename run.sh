@@ -16,6 +16,8 @@ echo 3rd Nearest Neighbor...
 
 python2 KNN/KNNTest.py
 
+g++ -o ./KNN/KNN ./KNN/KNN.cpp
+
 cat irisTrain.txt irisTest.txt |./KNN/KNN 3
 
 echo Bashed...
