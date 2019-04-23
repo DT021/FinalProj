@@ -1,7 +1,54 @@
-"""The purpose of this script is to perform simple linear regression on Walmart 
-stock prices to determine the average growth over time."""
-
+import matplotlib.pyplot as plt
 import numpy as np
+
+class LinearRegression():
+
+	def __init__(self, xTrain, yTrain):
+		self.xTrain = np.array((xTrain))
+		self.yTrain = np.array((yTrain))
+		self.slope = 0
+		self.yInter = 0
+
+	def fitData(self, alpha=0.0000001, epochs=10000):
+		"""Fit data to a linear model. Save y intercept and slope to class."""
+
+		n = self.xTrain.shape[0]
+		self.slope = 0
+		self.yInter = 0
+
+		for epoch in range(epochs):
+			yTest = self.slope * self.xTrain + self.yInter
+			error = yTest - self.yTrain
+
+			# Adjust slope and y intercept in opposite dirrection of error gradient.
+			self.slope -= alpha * 2 * np.sum(error * self.xTrain) / n
+			self.yInter -= alpha * 2 * np.sum(error) / n
+
+	def predict(self, xTest):
+		"""Given a set of x values, predict corresponding y values with the 
+		determined linear model and return them in a numpy array."""
+
+		return self.slope * xTest + self.yInter
+
+	def addData(self, newX, newY):
+
+		self.xTrain = np.concatenate(self.xTrain, newX)
+		self.yTrain = np.concatenate(self.yTrain, newY)
+
+	def resetData(self, newX=np.array(([])), newY=np.array(([]))):
+		"""Change data to given data. Clears arrays by default."""
+
+		self.xTrain = newX
+		self.yTrain = newY
+
+	def graphLine(self):
+		"""Graph the linear model and the given data."""
+
+		plt.plot(self.xTrain, self.yTrain, label="Actual Data")
+		plt.plot(self.xTrain, self.slope * self.xTrain + self.yInter, label="Linear Model")
+		plt.title("Linear Model vs. Actual Data")
+		plt.legend()
+		plt.show()
 
 def calcR2(y, yTest):
 	ssRes = np.sum((y - yTest) ** 2)
@@ -14,25 +61,13 @@ def calcR2(y, yTest):
 def calcAvgError(y, yTest):
 	return np.average(np.sqrt((y - yTest) ** 2))
 
-def linReg(x, y, alpha=0.0000001, epochs=10000):
-	"""Return the slope and y intercept of a regression line 
-	built on the given data.
-	
-	x, y = np float arrays
-	alpha = float
-	epochs = int
-	"""
+"""x = np.arange(100)
+y = np.linspace(0, 50, 100)
 
-	n = len(x)
-	m, b = 0, 0
+linTest = LinearRegression(x, y)
+linTest.fitData()
+linTest.graphLine()
 
-	for i in range(epochs):
-
-		yTest = m * x + b
-		error = yTest - y
-
-		# Adjust slope and y intercept based on error gradient.
-		m -= alpha * 2 * np.sum(error * x) / n
-		b -= alpha * 2 * np.sum(error) / n
-
-	return m, b
+linTest.resetData(np.linspace(0, 50), np.linspace(120, 50, 50))
+linTest.fitData(epochs=100000, alpha=0.0001)
+linTest.graphLine()"""
