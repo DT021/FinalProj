@@ -28,7 +28,7 @@ class KNNClassifier{
 	vector<string> yTrain;
 	set<string> classifications;
 
-	void _init_(vector< vector<double> > xTrain, vector<string> yTrain, int k);
+	KNNClassifier(vector< vector<double> > xTrain, vector<string> yTrain, int k);
 	void getClassifications();
 	void addData(vector< vector<double> > newX, vector<string> newY);
 	void clearData(vector< vector<double> > newX = {}, vector<string> newY = {});
@@ -36,14 +36,12 @@ class KNNClassifier{
 	void print();
 };
 
-void KNNClassifier::_init_(vector< vector<double> > xTrain, vector<string> yTrain, int k){
+KNNClassifier::KNNClassifier(vector< vector<double> > xTrain, vector<string> yTrain, int k){
 	
 	this->xTrain = xTrain;
 	this->yTrain = yTrain;
 	this->k = k;
 	getClassifications();
-
-	return;
 }
 
 void KNNClassifier::getClassifications(){
@@ -197,7 +195,6 @@ vector<string> trainInit(vector< vector<double> > &xTrain, vector<string> &yTrai
 
 int main(int argc, char *argv[]){
 
-	KNNClassifier* KNNptr = new KNNClassifier;
 
 	int k = atoi(argv[1]);
 
@@ -221,7 +218,7 @@ int main(int argc, char *argv[]){
 
 	trues = trainInit(xTrain, yTrain, xTest);
 
-	KNNptr->_init_(xTrain, yTrain, k);
+	KNNClassifier* KNNptr = new KNNClassifier(xTrain, yTrain, k);
 
 //	KNNptr->print();
 
