@@ -38,8 +38,8 @@ for i in range(total):
 
 #openTrain = open(r"../Parameters/train.txt", "r")
 #openTest = open(r"../Parameters/test.txt", "r")
-openTrain = open(r"Parameters/train.txt", "r")
-openTest = open(r"Parameters/test.txt", "r")
+openTrain = open("../Parameters/train.txt", "r")
+openTest = open("../Parameters/test.txt", "r")
 
 
 allLines = openTrain.readlines()
@@ -92,13 +92,13 @@ total = len(trues)
 for i in range(total):
 
 	if ourPred[i] != trues[i]:
-		ourError = ourError + 1
+		ourError += 1
 
 	if scikitPred[i] != trues[i]:
-		scikitError =  scikitError + 1
+		scikitError +=  1
 
-print "Python Percent Error: ", float(ourError)/float(total) * 100
-print "Scikit Percent Error: ", float(scikitError)/float(total) * 100
+print("Python Percent Error: ", float(ourError)/float(total) * 100)
+print("Scikit Percent Error: ", float(scikitError)/float(total) * 100)
 
 #print(xTrain)
 #print(yTrain)
