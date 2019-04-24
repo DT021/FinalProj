@@ -161,12 +161,12 @@ void KNNClassifier::print(){
 	return;
 }
 
-void trainInit(vector< vector<double> > &xTrain, vector<string> &yTrain, vector< vector<double> > &xTest){
+vector<string> trainInit(vector< vector<double> > &xTrain, vector<string> &yTrain, vector< vector<double> > &xTest){
 	
-	double param1, param2, param3;
+	double param1, param2, param3, param4;
 	vector<double> paramVec;
 	string classification;
-	while(cin >> param1 >> param2 >> param3 >> classification){
+	while(cin >> param1 >> param2 >> param3 >> param4 >> classification){
 
 		if(param1 == 777){
 			break;
@@ -180,16 +180,19 @@ void trainInit(vector< vector<double> > &xTrain, vector<string> &yTrain, vector<
 		paramVec.clear();
 	}
 
+	vector<string> trues;
+
 	paramVec.clear();
-	while(cin >> param1 >> param2 >> param3){
+	while(cin >> param1 >> param2 >> param3 >> param4 >> classification){
 		paramVec.push_back(param1);
 		paramVec.push_back(param2);
 		paramVec.push_back(param3);
 		xTest.push_back(paramVec);
 		paramVec.clear();
+		trues.push_back(classification);
 	}
 
-	return;
+	return trues;
 }
 
 int main(int argc, char *argv[]){
@@ -214,7 +217,9 @@ int main(int argc, char *argv[]){
 
 	vector< vector<double> > xTest;
 
-	trainInit(xTrain, yTrain, xTest);
+	vector<string> trues;
+
+	trues = trainInit(xTrain, yTrain, xTest);
 
 	KNNptr->_init_(xTrain, yTrain, k);
 
@@ -224,16 +229,38 @@ int main(int argc, char *argv[]){
 
 	vector<string> classes = KNNptr->classify(xTest);
 
+/*
+	cout << "True Classifications: " << endl;
+	cout << "[";
+	
+	for(unsigned int i = 0; i < trues.size(); i++){
+		cout << trues[i];
+		if(i != trues.size()-1){
+			cout << " ";	
+		}	
+	}
+	cout << "]" << endl;
+
 	cout << "Our C++ Predictions: " << endl;
 	cout << "[";
 
 	for(unsigned int i = 0; i < classes.size(); i++){
-		cout /*<< xTest[i][0] */<< classes[i];
+		cout << classes[i];
 		if(i != classes.size()-1){
 			cout << " ";
 		}
 	}
 	cout << "]" << endl;
+*/
+	double errCount = 0;
+
+	for(unsigned int i = 0; i < classes.size(); i++){
+		if(classes[i] != trues[i]){
+			errCount = errCount + 1;
+		}
+	}
+	double errPercent = (errCount/classes.size())*100;
+	cout << "C++ Percent Error: " << errPercent << endl;
 
 /*
 	vector< vector<double> > xTrain = {{1,2,3,3},{1,4,3,5},{29,15,19,12},{89,69,54,73},{76,100,99,80}};
