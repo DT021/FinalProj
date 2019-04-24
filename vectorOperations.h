@@ -84,7 +84,3 @@ float average(fvec &op1) {
 
 	return op1Sum / op1.size();
 }
-
-int main() {
-
-}
