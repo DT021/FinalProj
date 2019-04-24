@@ -33,16 +33,16 @@ KMeansCluster<T>::KMeansCluster(T testData) {
 }
 
 template <typename T>
-void KMeansCluster<T>::cluster(int numgroups, int epochs) {
+void KMeansCluster<T>::cluster(int numGroups, int epochs) {
 
 	// Reset groupCenters and initialize to random points.
 	this->groupCenters.resize(0);
 
-	for (int i = 0; i < this->groupCenters.size(); i++) {
+	for (int i = 0; i < numGroups; i++) {
 		this->groupCenters.push_back(vector<float>());
 
-		for (int j = 0; j < this->groupCenters[0].size(); j++) {
-			this->groupCenters[i].push_back(rand() % 100 / 100);
+		for (int j = 0; j < this->data[0].size(); j++) {
+			this->groupCenters[i].push_back(rand() % 5);
 		}
 	}
 
@@ -67,6 +67,7 @@ void KMeansCluster<T>::cluster(int numgroups, int epochs) {
 			groups[point] = centerDistances.begin()->second;
 		}
 
+
 		for (int group = 0; group < groupCenters.size(); group++) {
 			float numInGroup = 0;
 			vector<float> pointSums(data[0].size(), 0); 
@@ -77,10 +78,11 @@ void KMeansCluster<T>::cluster(int numgroups, int epochs) {
 					numInGroup++;
 
 					for (int j = 0; j < data[i].size(); j++) {
-						pointSums[i] += data[i][j];
+						pointSums[j] += data[i][j];
 					}
 				}
 			}
+
 
 			// Set group center to the average of all points currently in group.
 			for (int i = 0; i < groupCenters[group].size(); i++) {
@@ -95,10 +97,11 @@ void KMeansCluster<T>::cluster(int numgroups, int epochs) {
 
 template <typename T>
 void KMeansCluster<T>::printGroupCenters() {
+
 	for (int i = 0; i < groupCenters.size(); i++) {
 
-		for (int j = 0; j < groupCenters[i].size(); i++) {
-			cout << groupCenters[i][j] << "/";
+		for (int j = 0; j < groupCenters[i].size(); j++) {
+			cout << groupCenters[i][j] << " ";
 		}
 		cout << endl;
 	}
@@ -110,17 +113,3 @@ void KMeansCluster<T>::printGroups() {
 		cout << groups[i] << endl;
 	}
 }
-
-/*int main() {
-	vector<vector<int> > testData;
-
-	for (int i = 0; i < 5; i++) {
-		testData.push_back(vector<int>());
-
-		for (int j = 0; j < 3; j++)
-			testData[i].push_back(j);
-	}
-
-	KMeansCluster<vector<vector<int> > > test(testData);
-	test.cluster(3, 100);
-}*/

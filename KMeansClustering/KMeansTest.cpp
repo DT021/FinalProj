@@ -1,5 +1,5 @@
 #include <fstream>
-#include "kMeans.cpp"
+#include "KMeans.cpp"
 
 using namespace std;
 
@@ -15,7 +15,6 @@ int main() {
 		irisData.push_back(vector<float>());
 		irisData[point].push_back(p1);
 		irisData[point].push_back(p2);
-		irisData[point].push_back(p3);
 
 		point++;
 	}
@@ -28,12 +27,10 @@ int main() {
 			cout << irisData[i][j] << " ";
 		}
 		cout << endl;
-	}
-
-	cin.get();*/
+	}*/
 
 	KMeansCluster<vector<vector<float> > > irisCluster(irisData);
 	irisCluster.cluster(3, 100);
 	irisCluster.printGroupCenters();
-	cin.get();
+	irisCluster.printGroups();
 }
