@@ -1,66 +1,59 @@
-# File to clean large amounts of data and preprocess the points
-
-# Courtesy of Red Gate Software Tutorial on using the Yahoo Stock API
-
+from KNN import KNN
+import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import axes3d
+import numpy as np
 import pandas as pd
-
-# Import external pandas_datareader library with alias of web
 import pandas_datareader as web
- 
-# Import datetime internal datetime module datetime is a Python module
+import parMain
 import datetime
- 
-# Datetime.datetime is a data type within the datetime module yy/mm/dd
-
 import sys
 
-#with open(sys.argv[1]) as file:
-#    fileContents = file.read()
-#    print(fileContents)
-
-dateLine = raw_input('Please input start and end dates YYYY MM DD YYYY MM DD: ')
-dateLine = dateLine.replace('\n','')
-
-# Get user input
-sYear, sMonth, sDay, eYear, eMonth, eDay = dateLine.split()
-
-#        ticker = input("Input company ticker\n")
-#        sYear, sMonth, sDay  = map(int, input("Input start date yyyy mm dd\n").split())
-#        eYear, eMonth, eDay = map(int, input("Input end date yyyy mm dd\n").split())
+sYear, sMonth, sDay = 2018, 10, 25
+eYear, eMonth, eDay = 2019, 4, 25
 
 startDate = datetime.datetime(int(sYear), int(sMonth), int(sDay))
 endDate = datetime.datetime(int(eYear), int(eMonth), int(eDay))
 
-tickerLine = raw_input('Please input Ticker: ')
-ticker = tickerLine.replace('\n','')
+knownParams = []
+knownClasses = []
 
-# DataReader method name is case sensitive
-df = web.DataReader(ticker, 'yahoo', startDate, endDate)
- 
-        # Invoke to_csv for df dataframe object from DataReader method in the pandas_datareader library
- 
-        # ..\first_yahoo_prices_to_csv_demo.csv must not be open in another app, such as Excel
-        
-fileName = ticker + sYear + sMonth + sDay + '_' + eYear + eMonth + eDay + '.csv'
+# Load known classification data.
+with open("demoTrain.txt", "r") as data:
 
-#        df.to_csv('testWMT00_18.csv')
-#        df.to_csv('Data/'+fileName)
-df.to_csv('studentData/'+fileName)
+	for line in data:
+		knownParams.append(line.split(" ")[1:-1])
+		knownClasses.append(line.split(" ")[-1].strip())
 
-        # Test reading lines
+knownParams = np.array((knownParams), dtype="float32")
+knownClasses = np.array((knownClasses))
+knnClass = KNN.KNNClassifier(knownParams, knownClasses)
 
-#        colnames = ['date', 'value', 'high', 'low', 'open', 'close', 'volume', 'adjClose']
-#        csvFile = pd.read_csv('Data/'+fileName, names = colnames, skiprows = 1)
+while True:
+	ticker = "AMZN"
 
-#        date = csvFile.date.tolist()
-#        value = csvFile.value.tolist()
-#        high = csvFile.high.tolist()
-#        low = csvFile.low.tolist()
-#        open = csvFile.open.tolist()
-#        close = csvFile.close.tolist()
-#        volume = csvFile.volume.tolist()
-#        adjClose = csvFile.adjClose.tolist()
+	# Collect data for ticker and save to csv file.
+	df = web.DataReader(ticker, 'yahoo', startDate, endDate)
+	fileName = "studentData/test.csv"
+	df.to_csv(fileName)
 
-# How to strip last character
-#line = file.readline()
-#line = line[:-1]
+	# Determine parameters for chosen stock.
+	studentParams = np.array(([parMain.parMain(fileName)[1:]]))
+	prediction = knnClass.classify(studentParams)[0]
+
+	print("Class Prediction:", prediction)
+
+	# Graph known data with a color code. Graph chosen stock's data.
+	colors = {"Volatile-Loss":"red", "Volatile-Gain":"yellow", "Stable-Gain":"green", "Stable-Loss":"orange"}
+	fig = plt.figure()
+	graph = fig.add_subplot(111, projection="3d")
+
+	for i in range(knownClasses.shape[0]):
+		currColor = colors[knownClasses[i]]
+		graph.scatter(knownParams[i][0], knownParams[i][1], knownParams[i][2], color=currColor)
+
+	graph.scatter(studentParams[0][0], studentParams[0][1], studentParams[0][2], color="purple")
+
+	graph.set_xlabel("Volatility")
+	graph.set_ylabel("Moving Avg Slope")
+	graph.set_zlabel("Overall Slope")
+	plt.show()
