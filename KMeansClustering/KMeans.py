@@ -82,6 +82,6 @@ class KMeansCluster():
 
 iris = datasets.load_iris()
 kmeans = KMeansCluster(iris.data[...,:2])
-kmeans.cluster(3, epochs=100, maxRand=5, minRand=2)
+kmeans.cluster(3, epochs=100, maxRand=3, minRand=2)
 print(kmeans.groups)
 kmeans.graphData()

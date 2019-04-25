@@ -1,8 +1,9 @@
 import KNN
+import numpy as np
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
-from sklearn import datasets, neighbors
-import numpy as np
+from sklearn import neighbors
+
 """
 iris = datasets.load_iris()
 testSlice = -30
