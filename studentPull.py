@@ -29,7 +29,7 @@ knownClasses = np.array((knownClasses))
 knnClass = KNN.KNNClassifier(knownParams, knownClasses)
 
 while True:
-	ticker = "AMZN"
+	ticker = input("Input a stock ticker: ")
 
 	# Collect data for ticker and save to csv file.
 	df = web.DataReader(ticker, 'yahoo', startDate, endDate)
