@@ -1,11 +1,77 @@
 import pandas as pd
 import numpy as np
-import parameter1 as p1
-import parameter2 as p2
-import parameter3 as p3
-import parameter4 as p4
+from linReg import linReg
+# import parameter1 as p1
+# import parameter2 as p2
+# import parameter3 as p3
+# import parameter4 as p4
 import glob
 import sys
+
+def parameter1(volList):
+
+    avg = volList[-1]
+    volaAvg = 0
+
+    for i in range(len(volList) - 1):
+        volaAvg += abs( volList[i] - (volList[i + 1]) )
+        
+        avg += volList[i]
+        
+    avg = avg / len(volList)
+    volaAvg = volaAvg / (len(volList) - 1)
+
+    volaPercent = volaAvg / avg 
+
+    return volaPercent
+
+def parameter2(priceList):
+
+        avg = priceList[-1]
+        volaAvg = 0
+
+        for i in range(len(priceList) - 1):
+                volaAvg += abs( priceList[i] - (priceList[i + 1]) )
+
+                avg += priceList[i]
+
+        avg = avg / len(priceList)
+        volaAvg = volaAvg / (len(priceList) - 1)
+
+        volaPercent = volaAvg / avg
+
+        return volaPercent
+
+def parameter3(priceList):
+
+    firAvg = sum(priceList[:10])
+    midAvg = sum(priceList[ (len(priceList)) - 5:(len(priceList)) + 5])
+    lasAvg = sum(priceList[-10:])
+
+    firAvg = firAvg / 10
+    midAvg = midAvg / 10
+    lasAvg = lasAvg / 10
+
+    avgs = np.array(([firAvg, midAvg, lasAvg]))
+    x = np.array(([1,2,3]))
+
+    slope, yInter = linReg(x, avgs, alpha=0.0000001, epochs=10000)
+
+    return slope
+
+def parameter4( priceList ):
+
+    x = np.array([])
+    count = 0
+
+    for i in range(len(priceList)):
+
+        count = count + 1
+        x = np.append(x, [count])
+
+    slope, yInter = linReg(x, priceList, alpha=0.0000001, epochs=10000)
+
+    return slope
 
 def parMain(fileName):
 
@@ -21,12 +87,12 @@ def parMain(fileName):
 	volume = csvFile.volume.tolist()
 #	adjClose = csvFile.adjClose.tolist()
 	
-	volaVol = p1.parameter1(volume)
-	volaVal = p2.parameter2(value)
-	buyTenDayLinreg = p3.parameter3(value)
-	buyLinreg = p4.parameter4(value)
+	volaVol = parameter1(volume)
+	volaVal = parameter2(value)
+	buyTenDayLinreg = parameter3(value)
+	buyLinreg = parameter4(value)
 
-	pars = (([volaVol, volaVal, buyTenDayLinreg, buyLinreg]))
+	pars = [volaVol, volaVal, buyTenDayLinreg, buyLinreg]
 
 #	print("P1 THOURHG P4\n")
 #	print( volaVol, volaVal, buyTenDayLinreg, buyLinreg)
@@ -35,12 +101,11 @@ def parMain(fileName):
 
         #Probably should return all params as a list for easy writing to file
 	#return volParam
-
 #fileListSP = glob.glob("Data/*.csv")
 #fileListVol = glob.glob("VolData/*.csv")
 
 # List all files in the Data Directory
-fileListSP = glob.glob("../Data/*.csv")
+"""fileListSP = glob.glob("../Data/*.csv")
 fileListVol = glob.glob("../VolData/*.csv")
 
 openFile = open(r"params.txt", "a")
@@ -57,27 +122,27 @@ for fileName in fileListSP:
 	parsSP = parMain(fileName)
 #	L = ["count: ",  str(count), " P1: ", str(parsSP[0]), " P2: ", str(parsSP[1]), " P3: ", str(parsSP[2]), " P4: ", str(parsSP[3]), "\n"]
 	
-        parsSP[0] = parsSP[0]*100
-        parsSP[1] = parsSP[1]*100
-        parsSP[2] = parsSP[2]*100
-        parsSP[3] = parsSP[3]/10
+    parsSP[0] = parsSP[0]*100
+    parsSP[1] = parsSP[1]*100
+    parsSP[2] = parsSP[2]*100
+    parsSP[3] = parsSP[3]/10
 
-        volTotal = parsSP[0]+parsSP[1]
-        valTotal = parsSP[2]+parsSP[3]
+    volTotal = parsSP[0]+parsSP[1]
+    valTotal = parsSP[2]+parsSP[3]
 
-        if (volTotal > 4) and (valTotal > 50):
-            L = [str(parsSP[0]), " ", str(parsSP[1]), " ", str(parsSP[2]), " ", str(parsSP[3]), " Volatile-Gain", "\n"]
-        elif (volTotal > 4) and (valTotal < 50):
-            L = [str(parsSP[0]), " ", str(parsSP[1]), " ", str(parsSP[2]), " ", str(parsSP[3]), " Volatile-Loss", "\n"]
-        elif (volTotal < 4) and (valTotal > 50):
-            L = [str(parsSP[0]), " ", str(parsSP[1]), " ", str(parsSP[2]), " ", str(parsSP[3]), " Stable-Gain", "\n"]
-        elif (volTotal < 4) and (valTotal < 50):
-            L = [str(parsSP[0]), " ", str(parsSP[1]), " ", str(parsSP[2]), " ", str(parsSP[3]), " Stable-Loss", "\n"]
+    if (volTotal > 4) and (valTotal > 50):
+        L = [str(parsSP[0]), " ", str(parsSP[1]), " ", str(parsSP[2]), " ", str(parsSP[3]), " Volatile-Gain", "\n"]
+    elif (volTotal > 4) and (valTotal < 50):
+        L = [str(parsSP[0]), " ", str(parsSP[1]), " ", str(parsSP[2]), " ", str(parsSP[3]), " Volatile-Loss", "\n"]
+    elif (volTotal < 4) and (valTotal > 50):
+        L = [str(parsSP[0]), " ", str(parsSP[1]), " ", str(parsSP[2]), " ", str(parsSP[3]), " Stable-Gain", "\n"]
+    elif (volTotal < 4) and (valTotal < 50):
+        L = [str(parsSP[0]), " ", str(parsSP[1]), " ", str(parsSP[2]), " ", str(parsSP[3]), " Stable-Loss", "\n"]
 
-#	print("L IS PRINTED\n")
-#	print(L)
+            #	print("L IS PRINTED\n")
+            #	print(L)
 
-	openFile.writelines(L)
+            openFile.writelines(L)
 
 count = 0
 
@@ -110,3 +175,4 @@ for fileName in fileListVol:
 openFile.close()
 
 sys.exit()
+"""
