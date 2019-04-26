@@ -2,22 +2,43 @@
 #include <cstdio>
 #include <vector>
 #include <iostream>
+#include "../vectorOperations.h"
 
 using namespace std;
 
-pair<float, float> linReg (vector<float> &x, vector<float> &y, float alpha=0.0000001, int epochs=10000) {
+class LinearRegression {
+	vector<float> xTrain, yTrain;
+	float slope, yInter;
+
+	public:
+		LinearRegression(vector<float> &xTrain, vector<float> &yTrain);
+		void fitData(float alpha, int epochs);
+		float getSlope();
+		vector<float> predict(vector<float> &xTest);
+		void addData(vector<float> &newX, vector<float> &newY);
+		void resetData(vector<float> &newX, vector<float> &newY);
+};
+
+LinearRegression::LinearRegression(vector<float> &xTrain, vector<float> &yTrain) {
+	this->xTrain = xTrain;
+	this->yTrain = yTrain;
+}
+
+void LinearRegression::fitData(float alpha, int epochs) {
 		/* Return the slope and y intercept of the regression line formed based on 
 		   the given data. */
 
-		float m = 0, b = 0;
+		slope = 0;
+		yInter = 0;
+
+		int elems = xTrain.size();
+		vector<int> yTest(elems), error(elems);
 
 		for (int i = 0; i < epochs; i++) {
-				int elems = x.size();
-				vector<int> yTest(elems), error(elems);
 
 				// Make predictions based on the current slope and y intercept.
 				for (int j = 0; j < elems; j++) {
-						yTest[j] = m * x[j] + b;
+						yTest[j] = slope * xTrain[j] + yInter;
 				}
 
 				float errorSum = 0, errorSumX = 0;
@@ -25,17 +46,33 @@ pair<float, float> linReg (vector<float> &x, vector<float> &y, float alpha=0.000
 				// Compare results to actual data and form the sum components of the 
 				// gradient of the mean squared error function.
 				for (int j = 0; j < elems; j++) {
-						errorSum += yTest[j] - y[j];
-						errorSumX += (yTest[j] - y[j]) * x[j];
+						errorSum += yTest[j] - yTrain[j];
+						errorSumX += (yTest[j] - yTrain[j]) * xTrain[j];
 				}
 
 				// Adjust parameters based on the gradient value and the learning
 				// rate, alpha.
-				m -= 2 * alpha * errorSumX / elems;
-				b -= 2 * alpha * errorSum / elems;
+				slope -= 2 * alpha * errorSumX / elems;
+				yInter -= 2 * alpha * errorSum / elems;
 		}
+}
 
-		return make_pair(m, b);
+float LinearRegression::getSlope() {
+	return this->slope;
+}
+
+void LinearRegression::addData(vector<float> &newX, vector<float> &newY) {
+	// Concatenate given vectors to xTrain and yTrain.
+
+	this->xTrain.insert(xTrain.end(), newX.begin(), newX.end());
+	this->yTrain.insert(yTrain.end(), newY.begin(), newY.end());
+}
+
+void LinearRegression::resetData(vector<float> &newX, vector<float> &newY) {
+	// Replace xTrain and yTrain with given vectors.
+
+	this->xTrain = newX;
+	this->yTrain = newY;
 }
 
 float calcR2 (vector<float> &y, vector<float> &yTest) {
@@ -73,25 +110,3 @@ float calcAvg (vector<float> &y) {
 	
 	return avg;
 }
-
-/*int main() {
-		vector<float> x, y, yTest;
-
-		// Test algorith on y = x^2 over [0, 99].
-		for (int i = 0; i < 100; i++) {
-				x.push_back(i);
-				y.push_back(i * i);
-		}
-
-		pair<float, float>line = linReg(x, y);
-
-		for (int i = 0; i < 100; i++) {
-				yTest.push_back(line.first * x[i] + line.second);
-		}
-
-		float R2 = calcR2(y, yTest), avg = calcAvg(y);
-
-		printf("Slope: %f\nY Intercept: %f\n", line.first, line.second);
-		printf("R2: %f AVG:%f\n", R2, avg);
-}
-*/
