@@ -18,7 +18,7 @@ knownParams = []
 knownClasses = []
 
 # Load known classification data.
-with open("demoTrain.txt", "r") as data:
+with open("paramsNew.txt", "r") as data:
 
 	for line in data:
 		knownParams.append(line.split(" ")[1:-1])
@@ -26,7 +26,7 @@ with open("demoTrain.txt", "r") as data:
 
 knownParams = np.array((knownParams), dtype="float32")
 knownClasses = np.array((knownClasses))
-knnClass = KNN.KNNClassifier(knownParams, knownClasses)
+knnClass = KNN.KNNClassifier(knownParams, knownClasses, k=5)
 
 while True:
 	ticker = input("Input a stock ticker: ")
@@ -37,7 +37,8 @@ while True:
 	df.to_csv(fileName)
 
 	# Determine parameters for chosen stock.
-	studentParams = np.array(([parMain.parMain(fileName)[1:]]))
+	studentParams = np.array(([parMain.parMain(fileName)[1:]])) * 100
+	print(studentParams)
 	prediction = knnClass.classify(studentParams)[0]
 
 	print("Class Prediction:", prediction)
