@@ -2,7 +2,6 @@
 #include <cstdio>
 #include <vector>
 #include <iostream>
-#include "../vectorOperations.h"
 
 using namespace std;
 

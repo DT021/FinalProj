@@ -11,8 +11,8 @@ import sys
 sYear, sMonth, sDay = 2018, 10, 25
 eYear, eMonth, eDay = 2019, 4, 25
 
-startDate = datetime.datetime(int(sYear), int(sMonth), int(sDay))
-endDate = datetime.datetime(int(eYear), int(eMonth), int(eDay))
+startDate = datetime.datetime(2018, 10, 25)
+endDate = datetime.datetime(2019, 4, 25)
 
 knownParams = []
 knownClasses = []
@@ -21,8 +21,9 @@ knownClasses = []
 with open("paramsNew.txt", "r") as data:
 
 	for line in data:
-		knownParams.append(line.split(" ")[1:-1])
-		knownClasses.append(line.split(" ")[-1].strip())
+		info = line.split(" ")
+		knownParams.append(info[1:-1])
+		knownClasses.append(info[-1].strip())
 
 knownParams = np.array((knownParams), dtype="float32")
 knownClasses = np.array((knownClasses))
@@ -37,8 +38,8 @@ while True:
 	df.to_csv(fileName)
 
 	# Determine parameters for chosen stock.
-	studentParams = np.array(([parMain.parMain(fileName)[1:]])) * 100
-	print(studentParams)
+	rawParams = parMain.parMain(fileName)
+	studentParams = np.array(([rawParams[1:]]))
 	prediction = knnClass.classify(studentParams)[0]
 
 	print("Class Prediction:", prediction)
