@@ -65,13 +65,16 @@ were randomly initialized to. While this is a problem inherent to the K-Means al
 feel it is important for users to know that this is a possible outcome and simply requires 
 additional runs (and perhaps a bit of good luck).
 
+In the stocksData.py demonstration, it may be difficult to spot the user's point among the 
+rest of the data, but we assure you that it is there.
+
 ## Useful Commands
-*Note: run all programs from the root directory with appropriate relative paths
-**Note: most programs and scripts are used for setup and are presented here in the order to be
+Note: run all programs from the root directory with appropriate relative paths
+Note: most programs and scripts are used for setup and are presented here in the order to be
 run for a new ground-up data set analysis; some stock ticker pulling commands have been omitted
 for brevity.
 
-Setup Commands:
+### Setup Commands:
 
 python3 Setup/iterData.py 
 	This command pulls specified stock data from the S&P 500 list of tickers into CSV files.
@@ -84,7 +87,7 @@ python3 Parameters/split.py
 	This command performs a 70/30 split of the params.txt data into training and testing files
 	trainParams.txt and testParams.txt in the Parameters folder.
 
-Demo/Analysis:
+### Demo/Analysis:
 
 python3 stockDemo.py
 	This command prompts the user to input a ticker for analysis and plotting against all of the
