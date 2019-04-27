@@ -1,8 +1,10 @@
-openFile = open(r"params.txt", "r")
+# Split the total data params.txt file into a trainParams.txt and a test.txt 
+
+openFile = open(r"Parameters/params.txt", "r")
 allLines = openFile.readlines()
 
-trainFile = open(r"train.txt", "a")
-testFile = open(r"test.txt", "a")
+trainFile = open(r"Parameters/trainParams.txt", "w")
+testFile = open(r"Parameters/testParams.txt", "w")
 
 for i in range(0, len(allLines)):
         
