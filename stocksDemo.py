@@ -19,7 +19,7 @@ knownParams = []
 knownClasses = []
 
 # Load known classification data.
-with open("Parameters/stockParams.txt", "r") as data:
+with open("Parameters/params.txt", "r") as data:
 
 	for line in data:
 		info = line.split(" ")
