@@ -1,3 +1,5 @@
+# Produce a graph comparing scikit, python, and C++ linear regression 
+# implementations to sample stock data.
 import linReg
 import matplotlib.pyplot as plt
 import numpy as np
@@ -15,8 +17,9 @@ with open("test-data", "r") as data:
 x = np.array((x[-180:]))
 y = np.array((y[-180:]))
 
-m, b = linReg.linReg(x, y)
-pyRegY = m * x + b
+lr = linReg.LinearRegression(x, y)
+lr.fitData()
+pyRegY = lr.predict(x)
 
 cppRegY = np.zeros(x.size)
 
@@ -43,4 +46,6 @@ plt.plot(x, cppRegY, color="red", label="cppRegData")
 plt.plot(x, sciRegY, color="green", label="sciRegData")
 plt.legend()
 plt.title("Our Regression vs. Sci-Kit for 6 Months of Walmart Stocks")
+plt.xlabel("Days Since Start")
+plt.ylabel("Price of Stock")
 plt.show()

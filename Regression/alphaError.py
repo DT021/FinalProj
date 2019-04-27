@@ -1,3 +1,4 @@
+# Plot average error as a function of learning rate.
 import matplotlib.pyplot as plt
 
 alphas = []
@@ -16,4 +17,6 @@ end = 330
 plt.plot(alphas[start:end], avgErrors[start:end], color="red", label="Average Error")
 plt.legend()
 plt.title("Average Error as a Function of Learning Rate")
+plt.xlabel("Learning Rate")
+plt.ylabel("Average Error")
 plt.show()

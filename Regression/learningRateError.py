@@ -1,3 +1,4 @@
+# Collect average error as a result of varying learning rate.
 import linReg
 import numpy as np
 
@@ -23,8 +24,9 @@ alpha = 0.00000021 # Maximum working alpha
 
 with open("alphaErrorData", "w") as data:
 	for i in range(1000):
-		slope, yInter = linReg.linReg(xTrain, yTrain, alpha)
-		y = slope * xTest + yInter
+		lr = linReg.LinearRegression(xTrain, yTrain)
+		lr.fitData(alpha)
+		y = lr.predict(xTest)
 
 		print(alpha, linReg.calcAvgError(y, yTest), file=data)
 		alpha -= 0.00000000001
