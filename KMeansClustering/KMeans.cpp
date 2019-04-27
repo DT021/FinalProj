@@ -4,7 +4,6 @@
 #include <map>
 #include <cmath>
 #include <time.h>
-#include "../vectorOperations.h"
 
 using namespace std;
 
@@ -67,7 +66,8 @@ void KMeansCluster<T>::cluster(int numGroups, int epochs) {
 			groups[point] = centerDistances.begin()->second;
 		}
 
-
+		// For each group, determine how many points belong to it, and sum all 
+		// vectors in that group.
 		for (int group = 0; group < groupCenters.size(); group++) {
 			float numInGroup = 0;
 			vector<float> pointSums(data[0].size(), 0); 
