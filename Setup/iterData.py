@@ -1,23 +1,11 @@
-# File to clean large amounts of data and preprocess the points
-
-# Courtesy of Red Gate Software Tutorial on using the Yahoo Stock API
+# This script pulls our list of S&P Tickers from the yahoo stock API and loads them into a series of .csv files
 
 import pandas as pd
-
-# Import external pandas_datareader library with alias of web
 import pandas_datareader as web
- 
-# Import datetime internal datetime module datetime is a Python module
 import datetime
- 
-# Datetime.datetime is a data type within the datetime module yy/mm/dd
-
 import sys
 
-#with open(sys.argv[1]) as file:
-#    fileContents = file.read()
-#    print(fileContents)
-
+# Open the command line inputted file of date and tickers
 file = open(sys.argv[1])
 
 lineCount = 0
@@ -28,12 +16,8 @@ while line:
 
     if lineCount == 0:
 
-        # Get user input
+        # Get user input for date
         sYear, sMonth, sDay, eYear, eMonth, eDay = line.split()
-
-#        ticker = input("Input company ticker\n")
-#        sYear, sMonth, sDay  = map(int, input("Input start date yyyy mm dd\n").split())
-#        eYear, eMonth, eDay = map(int, input("Input end date yyyy mm dd\n").split())
 
         startDate = datetime.datetime(int(sYear), int(sMonth), int(sDay))
         endDate = datetime.datetime(int(eYear), int(eMonth), int(eDay))
@@ -42,12 +26,13 @@ while line:
 
     else:
 
+        # Yank endlines
         ticker = line.replace('\n','') 
 
         print(ticker)
         print("\n")
 
-        # DataReader method name is case sensitive
+        # Pull from the stock API
         df = web.DataReader(ticker, 'yahoo', startDate, endDate)
  
         # Invoke to_csv for df dataframe object from DataReader method in the pandas_datareader library

@@ -50,8 +50,11 @@ determines four parameters -- volatility by price, volatility by volume, slope f
 regression on price, and slope from linear regression on 10-day moving averages -- classifies 
 it based on known data, and plots the given ticker with the tickers used to train our algorithm.
 
-algoCompare.sh compares the runtime and results (percent error, group centers, etc.) of all
-of the algorithms from each implementation.
+run.sh compares the runtime and results (percent error, group centers, etc.) of all
+of the algorithms from each implementation and pipes them to various txt files to be plotted and analyzed.
+
+Our analysis of timing and error for the elements of our library (KNN, K Means Clustering, Linear Regression)
+can all be found in the Statistics folder as PNG images.
 
 ## Known Issues
 Currently, decreasing data wreaks havoc on our linear regression algorithms. We believe that 
@@ -61,3 +64,39 @@ Our K-Means implementations may output bad group centers depending on what the g
 were randomly initialized to. While this is a problem inherent to the K-Means algorithm, we 
 feel it is important for users to know that this is a possible outcome and simply requires 
 additional runs (and perhaps a bit of good luck).
+
+## Useful Commands
+*Note: run all programs from the root directory with appropriate relative paths
+**Note: most programs and scripts are used for setup and are presented here in the order to be
+run for a new ground-up data set analysis; some stock ticker pulling commands have been omitted
+for brevity.
+
+Setup Commands:
+
+python3 Setup/iterData.py 
+	This command pulls specified stock data from the S&P 500 list of tickers into CSV files.
+
+python3 Parameters/collectData.py
+	This command parses all CSV files and computes parameters that are written to a params.txt file
+	in the Parameters folder.
+
+python3 Parameters/split.py
+	This command performs a 70/30 split of the params.txt data into training and testing files
+	trainParams.txt and testParams.txt in the Parameters folder.
+
+Demo/Analysis:
+
+python3 stockDemo.py
+	This command prompts the user to input a ticker for analysis and plotting against all of the
+	training data pre-loaded into our repo databank by the setup code.
+
+./ShellScript/run.sh
+	This bash script performs timing and accuracy analysis of KNN as well as timing analysis of 
+	K Means Clustering for each implementation over a range of K 1:100 and then writes the 
+	data to a series of files to be plotted by our python plotting scripts
+
+python3 KNN/KNNErrorGraph.py
+	This command plots the KNN accuracy error over the K range for each implementation
+
+python KNN/KNNTiming.py
+	This command plots the KNN timing over the K range for each implementation
