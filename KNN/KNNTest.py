@@ -74,8 +74,7 @@ for i in range(total):
 	if scikitPred[i] != trues[i]:
 		scikitError +=  1
 
-print("Python Percent Error: ", float(ourError)/float(total) * 100)
-print("Scikit Percent Error: ", float(scikitError)/float(total) * 100)
+print float(ourError)/float(total)*100, float(scikitError)/float(total)*100
 
 openTrain.close()
 openTest.close()

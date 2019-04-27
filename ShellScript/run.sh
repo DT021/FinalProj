@@ -2,19 +2,19 @@
 
 echo Starting to bash...
 
-echo Please input K value greater than 0...
+rm KNN/kError.txt
 
-read K
+for K in {1..100..1}
 
-echo $K Nearest Neighbor...
+do
+	echo Running $K Nearest Neighbor...
 
+	g++ -o ./KNN/KNN ./KNN/KNN.cpp
 
+	cat Parameters/trainParams.txt Parameters/testParams.txt | ./KNN/KNN $K >> KNN/kError.txt
 
-g++ -o ./KNN/KNN ./KNN/KNN.cpp
-
-cat Parameters/trainParams.txt Parameters/testParams.txt | ./KNN/KNN $K
-
-python2 KNN/KNNTest.py $K
+	python2 KNN/KNNTest.py $K >> KNN/kError.txt
+done
 
 unset K
 

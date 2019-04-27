@@ -237,7 +237,7 @@ int main(int argc, char *argv[]){
 	}
 
 	double errPercent = (errCount/classes.size())*100;
-	cout << "C++ Percent Error: " << errPercent << endl;
+	cout << k << " " << errPercent << " ";
 
 	// Clean memory
 	delete KNNptr;	
