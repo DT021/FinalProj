@@ -1,6 +1,5 @@
 import pandas as pd
 import numpy as np
-from Regression import linReg
 from sklearn.linear_model import LinearRegression
 
 def avg(pList):

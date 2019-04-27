@@ -1,13 +1,13 @@
+"""
+This program calls parMain.py and pulls the stock tickers and then writes all four parameters to the params.txt file 
+"""
+
 import glob
-import numpy as np
 import parMain
-import pandas as pd
-from Regression import linReg
-from sklearn.linear_model import LinearRegression
 
 fileListSP = glob.glob("Data/*.csv")
 fileListVol = glob.glob("VolData/*.csv")
-openFile = open("testCollect.txt", "w")
+openFile = open("Parameters/params.txt", "w")
 
 count = 0
 
