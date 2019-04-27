@@ -41,7 +41,7 @@ The .cluster() method executes the KMeans algorithm and produces the estimated g
 The user can determine how many group centers to determine as well as the number of epochs 
 to change the group centers.
 
-The C++ implementation (KMeans.h) practically identical, except all instances of numpy arrays 
+The C++ implementation (KMeans.h) is practically identical, except all instances of numpy arrays
 are replaced with a vector of some kind of number, as above.
 
 ## Demonstrations
@@ -50,7 +50,7 @@ determines four parameters -- volatility by price, volatility by volume, slope f
 regression on price, and slope from linear regression on 10-day moving averages -- classifies 
 it based on known data, and plots the given ticker with the tickers used to train our algorithm.
 
-algoCompare.sh compared the runtime and results (percent error, group centers, etc.) of all 
+algoCompare.sh compares the runtime and results (percent error, group centers, etc.) of all
 of the algorithms from each implementation.
 
 ## Known Issues
