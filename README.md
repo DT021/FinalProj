@@ -8,6 +8,17 @@ wrote in this library are basic linear regression, k-nearest neighbor classifica
 and K-Means clustering. On top of this, there are comparisons in performace between our 
 implementations and corresponding algorithms in the popular scikit Python library.
 
+The major functions and scripts required to make this library useable are all together in the
+MLarky.h and MLarky.py files in the root directory.  We have packaged them together in this format
+for improved portability for the end user.  
+
+### Uses
+There are three main uses for this library.  The user can use the most fundamental programs included to 
+pull down their own stock tickers from the yahoo stock API and use the libraries functions on these stocks.
+Additionally, the user may perform their own stock classification on a ticker of their choice based on our
+preloaded stock data.  Finally, the user may use our analysis scripts to compare the various implementations 
+of algorithms in the library on any data sets of their choice!
+
 ## Linear Regression
 Our Python implementation of linear regression (linReg.py) is a class whose init function 
 requires two one dimensional numpy arrays -- x and y training data. To produce the estimated 
@@ -57,6 +68,10 @@ Our analysis of timing and error for the elements of our library (KNN, K Means C
 can all be found in the Statistics folder as PNG images.
 
 ## Known Issues
+Occaisonally when pulling a stock ticker from the yahoo stock API, valid tickers will not be supported.
+This is not a major issue (about 10 out of the S&P 500 failed initially), but it is worth noting
+if additional stock data is being imported.
+
 Currently, decreasing data wreaks havoc on our linear regression algorithms. We believe that 
 learning rate adjustment based on average slope may be a solution.
 
