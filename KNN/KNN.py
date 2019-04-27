@@ -72,24 +72,3 @@ class KNNClassifier():
 			predictions[i] = sorted(votes.items(), key=lambda vote: vote[1], reverse=True)[0][0]
 
 		return np.array((predictions))
-
-
-
-
-
-#knn = KNNClassifier(np.arange(5).reshape(5, 1), np.array(["Less than five" for i in range(5)]))
-#knn.addData(np.arange(6, 11).reshape(5, 1), np.array(["Greater than five" for i in range(5)]))
-
-# xTest = np.array([[1], [4], [7], [10]])
-# yTest = knn.classify(xTest)
-# print(xTest)
-# print(yTest)
-
-# print(knn.xTrain)
-# print(knn.yTrain)
-# knn.addData(np.arange(5,10), np.arange(5, 10))
-# print(knn.xTrain)
-# print(knn.yTrain)
-# knn.clearData()
-# print(knn.xTrain)
-# print(knn.yTrain)

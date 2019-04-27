@@ -15,12 +15,12 @@
 using namespace std;
 
 // Calculates euclidean distance between two points based on parameters
-float getDistance(vector<float> staticPoint, vector<float> movingPoint){
+double getDistance(vector<double> staticPoint, vector<double> movingPoint){
 
-        float dist = 0;
+        double dist = 0;
         for(unsigned int i = 0; i < staticPoint.size(); i++){
-                dist += (movingPoint[i]-staticPoint[i])*(movingPoint[i]-staticPoint[i]);
-        }
+		dist += pow(movingPoint[i]-staticPoint[i], 2);
+	}
         dist = sqrt(dist);
 
         return dist;
@@ -31,20 +31,20 @@ class KNNClassifier{
 	public:
 	
 	int k;
-	vector< vector<float> > xTrain;
+	vector< vector<double> > xTrain;
 	vector<string> yTrain;
 	set<string> classifications;
 
-	KNNClassifier(vector< vector<float> > xTrain, vector<string> yTrain, int k);
+	KNNClassifier(vector< vector<double> > xTrain, vector<string> yTrain, int k);
 	void getClassifications();
-	void addData(vector< vector<float> > newX, vector<string> newY);
-	void clearData(vector< vector<float> > newX = {}, vector<string> newY = {});
-	vector<string> classify(vector< vector<float> > testX);
+	void addData(vector< vector<double> > newX, vector<string> newY);
+	void clearData(vector< vector<double> > newX = {}, vector<string> newY = {});
+	vector<string> classify(vector< vector<double> > testX);
 	void print();
 };
 
 // Constructor
-KNNClassifier::KNNClassifier(vector< vector<float> > xTrain, vector<string> yTrain, int k){
+KNNClassifier::KNNClassifier(vector< vector<double> > xTrain, vector<string> yTrain, int k){
 	
 	this->xTrain = xTrain;
 	this->yTrain = yTrain;
@@ -64,7 +64,7 @@ void KNNClassifier::getClassifications(){
 }
 
 // Add new data sets for training
-void KNNClassifier::addData(vector< vector<float> > newX, vector<string> newY){
+void KNNClassifier::addData(vector< vector<double> > newX, vector<string> newY){
 	
 	for(unsigned int i = 0; i < newX.size(); i++){
 		xTrain.push_back(newX[i]);
@@ -80,7 +80,7 @@ void KNNClassifier::addData(vector< vector<float> > newX, vector<string> newY){
 }
 
 // Clear all current training data vectors
-void KNNClassifier::clearData(vector< vector<float> > newX, vector<string> newY){
+void KNNClassifier::clearData(vector< vector<double> > newX, vector<string> newY){
 	
 	xTrain.clear();
 	yTrain.clear();
@@ -93,13 +93,13 @@ void KNNClassifier::clearData(vector< vector<float> > newX, vector<string> newY)
 }
 
 // Classify each point in the test data set via distance function and return vector of classification strings
-vector<string> KNNClassifier::classify(vector< vector<float> > testX){
+vector<string> KNNClassifier::classify(vector< vector<double> > testX){
 	
 	vector<string> classes;
 
 	// The distances from the current test point are stored in a multimap so that finding the lowest five distances is a breeze
-	multimap<float, string> distances;
-	map<string, float> votes;
+	multimap<double, string> distances;
+	map<string, double> votes;
 
 	// Calculate all point distances of training data to test data for EACH test data point
 	for(unsigned int i = 0; i < testX.size(); i++){
@@ -108,11 +108,11 @@ vector<string> KNNClassifier::classify(vector< vector<float> > testX){
 		votes.clear();
 
 		for(unsigned int j = 0; j < xTrain.size(); j++){
-			float dist = getDistance(testX[i], xTrain[j]);
-			distances.insert(pair<float, string>(dist, yTrain[j]));
+			double dist = getDistance(testX[i], xTrain[j]);
+			distances.insert(pair<double, string>(dist, yTrain[j]));
 		}
 	
-		multimap<float, string>::iterator mmit = distances.begin();
+		multimap<double, string>::iterator mmit = distances.begin();
 		int counter = 0;
 
 		// Count the classification votes from each of the five closest distanced training points
@@ -122,11 +122,11 @@ vector<string> KNNClassifier::classify(vector< vector<float> > testX){
 			counter++;
 		}
 
-		map<string, float>::iterator mit = votes.begin();
-		map<string, float>::iterator winner;
+		map<string, double>::iterator mit = votes.begin();
+		map<string, double>::iterator winner;
 		int max = 0;
 		while(mit != votes.end()){
-			if(mit->second > max){
+			if(mit->second >= max){
 				winner = mit;	
 			}
 			mit++;
@@ -170,10 +170,10 @@ void KNNClassifier::print(){
 }
 
 // Initialize the training data and rip the true classifications from the test data and return as a vector of strings
-vector<string> trainInit(vector< vector<float> > &xTrain, vector<string> &yTrain, vector< vector<float> > &xTest){
+vector<string> trainInit(vector< vector<double> > &xTrain, vector<string> &yTrain, vector< vector<double> > &xTest){
 	
-	float param1, param2, param3, param4;
-	vector<float> paramVec;
+	double param1, param2, param3, param4;
+	vector<double> paramVec;
 	string classification;
 	while(cin >> param1 >> param2 >> param3 >> param4 >> classification){
 
@@ -211,10 +211,10 @@ int main(int argc, char *argv[]){
 
 	int k = atoi(argv[1]);
 
-	vector< vector<float> > xTrain;
+	vector< vector<double> > xTrain;
 	vector<string> yTrain;
 
-	vector< vector<float> > xTest;
+	vector< vector<double> > xTest;
 
 	vector<string> trues;
 
@@ -228,14 +228,15 @@ int main(int argc, char *argv[]){
 
 
 	// Compute percent error
-	float errCount = 0;
+	double errCount = 0;
 
 	for(unsigned int i = 0; i < classes.size(); i++){
 		if(classes[i] != trues[i]){
 			errCount = errCount + 1;
 		}
 	}
-	float errPercent = (errCount/classes.size())*100;
+
+	double errPercent = (errCount/classes.size())*100;
 	cout << "C++ Percent Error: " << errPercent << endl;
 
 	// Clean memory
