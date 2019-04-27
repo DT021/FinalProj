@@ -236,7 +236,7 @@ int main(int argc, char *argv[]){
 	auto duration = chrono::duration_cast<chrono::microseconds>(stop-start);
 	unsigned long long duration_microseconds = duration.count();
 
-	fprintf(stderr, "%i %llu ", k, duration_microseconds);
+	fprintf(stderr, "%i %llu", k, duration_microseconds);
 
 	// Compute percent error
 	double errCount = 0;
