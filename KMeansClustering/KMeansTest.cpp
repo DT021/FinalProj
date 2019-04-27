@@ -1,15 +1,18 @@
 #include <fstream>
 #include "KMeans.cpp"
+#include <limits>
+#include <chrono>
+#include <cstdio>
 
 using namespace std;
 
-int main() {
+int main(int argc, char *argv[]){
 
 	vector< vector<float> > irisData;
 	float p1, p2, p3, groupThrowAway;
 	int point = 0;
 	ifstream iris;
-	iris.open("../irisTrain.txt");
+	iris.open("Iris/irisTrain.txt");
 
 	while (iris >> p1 >> p2 >> p3 >> groupThrowAway) {
 		irisData.push_back(vector<float>());
@@ -29,8 +32,19 @@ int main() {
 		cout << endl;
 	}*/
 
+	int k = atoi(argv[1]);
+
 	KMeansCluster<vector<vector<float> > > irisCluster(irisData);
-	irisCluster.cluster(3, 100);
-	irisCluster.printGroupCenters();
-	irisCluster.printGroups();
+
+	// Perform cluster and timing
+	auto start = chrono::high_resolution_clock::now();
+	
+	irisCluster.cluster(k, 100);
+
+	auto stop = chrono::high_resolution_clock::now();
+	auto duration = chrono::duration_cast<chrono::microseconds>(stop-start);
+	unsigned long long duration_microseconds = duration.count();
+	
+	printf("%i %llu ", k, duration_microseconds);
+
 }

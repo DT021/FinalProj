@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import numpy as np
 from sklearn import datasets
+import sys
+import time
 
 class KMeansCluster():
 
@@ -79,3 +81,21 @@ class KMeansCluster():
 		plt.scatter(self.groupCenters[...,0], self.groupCenters[...,1], color="red")
 
 		plt.show()
+
+iris = datasets.load_iris()
+testSlice = -30
+irisTrain = iris.data[:testSlice][...,:3]
+
+k = sys.argv[1]
+
+Cluster = KMeansCluster(irisTrain)
+
+startTime = time.time()
+
+Cluster.cluster(int(k), 100)
+
+endTime = time.time()
+
+ourTime = (endTime - startTime)*1000000
+
+print ourTime, ' ',
