@@ -1,9 +1,14 @@
+"""
+ This file holds all Parameter calculation functions
+ parMain(fileName) is the summation function and returns a numpy array of the four parameters
+"""
+
 import pandas as pd
 import numpy as np
 from sklearn.linear_model import LinearRegression
 
 def avg(pList):
-    """Return the average value of the given list."""
+    """Returns the average value of the given list"""
 
     aver = pList[-1]
 
@@ -14,7 +19,7 @@ def avg(pList):
     return aver / len(pList)
 
 def linRegress(pList):
-    """Return the slope of the line created by linear regression."""
+    """Returns the slope of the line created by linear regression"""
 
     w, h = 1, len(pList)
 
@@ -31,43 +36,34 @@ def linRegress(pList):
     return model.coef_
 
 def parameter1(volList):
-    """Determine percent volatility based on volume."""
+    """Determines percent volatility based on volume by finding average daily change and dividing that by average volume"""
 
-    avg = volList[-1]
     volaAvg = 0
 
     for i in range(len(volList) - 1):
         volaAvg += abs( volList[i] - (volList[i + 1]) )
         
-        avg += volList[i]
-        
-    avg = avg / len(volList)
     volaAvg = volaAvg / (len(volList) - 1)
 
-    volaPercent = volaAvg / avg 
+    volaPercent = volaAvg / avg(volList) 
 
     return volaPercent * 100
 
 def parameter2(priceList):
-    """Determine percent volatility based on price."""
+    """Determines percent volatility based on price by finding average daily change and dividing that by average price"""
 
-    avg = priceList[-1]
     volaAvg = 0
 
     for i in range(len(priceList) - 1):
         volaAvg += abs( priceList[i] - (priceList[i + 1]) )
 
-        avg += priceList[i]
-
-    avg = avg / len(priceList)
     volaAvg = volaAvg / (len(priceList) - 1)
-    volaPercent = volaAvg / avg
+    volaPercent = volaAvg / avg(priceList)
 
     return volaPercent * 100
 
 def parameter3(priceList):
-    """Determine slope of three 10 day moving average, and return as a percent 
-    of average stock price."""
+    """Determines slope of three 10-day averaged points, and returns as a percent of average stock price"""
 
     firAvg = sum(priceList[:10])
     midAvg = sum(priceList[ (len(priceList)) - 5:(len(priceList)) + 5])
@@ -84,8 +80,7 @@ def parameter3(priceList):
     return adjSlope * 100
 
 def parameter4(priceList):
-    """Determine the slope found by linear regression, and return as a percent of 
-    average stock price."""
+    """Determines the slope found by linear regression, and returns as a percent of average stock price."""
 
     slope = linRegress(priceList)
     adjSlope = slope / avg(priceList)
@@ -93,17 +88,17 @@ def parameter4(priceList):
     return adjSlope * 100
 
 def parMain(fileName):
-
+	"""Calls parameter 1 through 4 and returns the four parameters into a numpy array"""
 	colnames = ['date', 'value', 'high', 'low', 'open', 'close', 'volume', 'adjClose']
 	csvFile = pd.read_csv(fileName, names = colnames, skiprows = 1)
 	value = csvFile.value.tolist()
 	volume = csvFile.volume.tolist()
 	
 	volaVol = parameter1(volume)
-	volaVal = parameter2(value)
-	buyTenDayLinreg = parameter3(value)
-	buyLinreg = parameter4(value)
+	volaPrice = parameter2(value)
+	tenDayLinreg = parameter3(value)
+	linreg = parameter4(value)
 
-	pars = [volaVol, volaVal, buyTenDayLinreg, buyLinreg]
+	pars = [volaVol, volaPrice, tenDayLinreg, linreg]
 
 	return pars

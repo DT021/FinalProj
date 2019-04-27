@@ -1,5 +1,5 @@
 """
-This program calls parMain.py and pulls the stock tickers and then writes all four parameters to the params.txt file 
+This program calls parMain.py for all stock tickers and then writes all four parameters and a classification to the params.txt file 
 """
 
 import glob
@@ -12,7 +12,7 @@ openFile = open("Parameters/params.txt", "w")
 count = 0
 
 for fileName in fileListSP:	
-
+    """Calls all stocks from the S&P500 tickers"""
     # count = count + 1
     # print(count)
 	
@@ -35,7 +35,7 @@ for fileName in fileListSP:
 count = 0
 
 for fileName in fileListVol:
-	
+	"""Calls all stocks from the volatile stocks list"""
         # count = count + 1
         # print(count)
 
