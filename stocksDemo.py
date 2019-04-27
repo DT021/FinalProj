@@ -2,9 +2,10 @@ from KNN import KNN
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 import numpy as np
+import os
 import pandas as pd
 import pandas_datareader as web
-import parMain
+from Parameters import parMain
 import datetime
 import sys
 
@@ -18,7 +19,7 @@ knownParams = []
 knownClasses = []
 
 # Load known classification data.
-with open("paramsNew.txt", "r") as data:
+with open("Parameters/stockParams.txt", "r") as data:
 
 	for line in data:
 		info = line.split(" ")
@@ -34,7 +35,7 @@ while True:
 
 	# Collect data for ticker and save to csv file.
 	df = web.DataReader(ticker, 'yahoo', startDate, endDate)
-	fileName = "studentData/test.csv"
+	fileName = "demo.csv"
 	df.to_csv(fileName)
 
 	# Determine parameters for chosen stock.
@@ -59,3 +60,4 @@ while True:
 	graph.set_ylabel("Moving Avg Slope")
 	graph.set_zlabel("Overall Slope")
 	plt.show()
+	os.remove("demo.csv")
