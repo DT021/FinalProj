@@ -1,0 +1,29 @@
+Matthew Gray Jones - Milestones
+
+40 PT Rubric
+
+20 - Student show that a significant amount of understanding has been gained about their desired subject area
+10 - Significant amount of effort and time has been put into the project
+10 - Code compiles and implements a specific goal in the desired subject area
+
+Compliable task:
+1. Found method to log time spent on the project and distributed this method
+2. Create list of stocks that can be used to extract data from. These stocks should be based on the S&P500 indicator
+3. Found K Nearest Neighbor algorithm to classsify data in a more simple way
+4. Add to the linear regression code to calculate standard variation and average of data. This information will be used
+in the preprocessed data
+5. Download Python3, Numpy, SciPy, MatPlotLib, and pip3 
+
+To do:
+1. Calculate High and Low in percent of average stock price over that period and compare to S&P 500 to have a 
+volitility check
+2. Learn more about Fibonnacci retrace and how to implement it https://www.investopedia.com/terms/f/fibonacciretracement.asp
+3. Think about how an all time average/all time low could tell something about a stock
+	- Potentially the number of stocks above a retrace or the number of stocks below a certain retrace
+4. Decide on value of moving averages, exponential moving average, and simple moving average as technical analysis techniques 
+
+
+Potential Problems:
+1. Does not account for when a company divides its stocks into smaller stocks
+2. Does not account for huge growth and huge dip in same period
+

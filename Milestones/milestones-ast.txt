@@ -1,0 +1,17 @@
+Alexander S. Twilla - Milestones
+
+40 Point Rubric
+
+	30 Points - The regression algorithms work and produce reasonable results.
+
+	10 Points - The code is well-formated and easily understandable.
+
+Compilable Task
+
+	A working linear regression algorithm written in C++ and Python.
+
+To-Do
+
+	1. Complete linear regression algorithms.
+	2. Determine data source(s).
+	3. Test linear regression algorithms.

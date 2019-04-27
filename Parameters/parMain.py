@@ -1,14 +1,38 @@
 import pandas as pd
 import numpy as np
-from linReg import linReg
-# import parameter1 as p1
-# import parameter2 as p2
-# import parameter3 as p3
-# import parameter4 as p4
-import glob
-import sys
+from Regression import linReg
+from sklearn.linear_model import LinearRegression
+
+def avg(pList):
+    """Return the average value of the given list."""
+
+    aver = pList[-1]
+
+    for i in range(len(pList) - 1):
+
+        aver += pList[i]
+
+    return aver / len(pList)
+
+def linRegress(pList):
+    """Return the slope of the line created by linear regression."""
+
+    w, h = 1, len(pList)
+
+    xx = [[0 for x in range(w)] for y in range(h)]
+
+    count = 0
+
+    for i in range(len(pList)):
+        count = count + 1
+        xx[i][0] = count
+
+    model = LinearRegression().fit(xx, pList)
+
+    return model.coef_
 
 def parameter1(volList):
+    """Determine percent volatility based on volume."""
 
     avg = volList[-1]
     volaAvg = 0
@@ -23,26 +47,28 @@ def parameter1(volList):
 
     volaPercent = volaAvg / avg 
 
-    return volaPercent
+    return volaPercent * 100
 
 def parameter2(priceList):
+    """Determine percent volatility based on price."""
 
-        avg = priceList[-1]
-        volaAvg = 0
+    avg = priceList[-1]
+    volaAvg = 0
 
-        for i in range(len(priceList) - 1):
-                volaAvg += abs( priceList[i] - (priceList[i + 1]) )
+    for i in range(len(priceList) - 1):
+        volaAvg += abs( priceList[i] - (priceList[i + 1]) )
 
-                avg += priceList[i]
+        avg += priceList[i]
 
-        avg = avg / len(priceList)
-        volaAvg = volaAvg / (len(priceList) - 1)
+    avg = avg / len(priceList)
+    volaAvg = volaAvg / (len(priceList) - 1)
+    volaPercent = volaAvg / avg
 
-        volaPercent = volaAvg / avg
-
-        return volaPercent
+    return volaPercent * 100
 
 def parameter3(priceList):
+    """Determine slope of three 10 day moving average, and return as a percent 
+    of average stock price."""
 
     firAvg = sum(priceList[:10])
     midAvg = sum(priceList[ (len(priceList)) - 5:(len(priceList)) + 5])
@@ -53,39 +79,26 @@ def parameter3(priceList):
     lasAvg = lasAvg / 10
 
     avgs = np.array(([firAvg, midAvg, lasAvg]))
-    x = np.array(([1,2,3]))
+    slope = linRegress(priceList)
+    adjSlope = slope / avg(priceList)
 
-    slope, yInter = linReg(x, avgs, alpha=0.0000001, epochs=10000)
+    return adjSlope * 100
 
-    return slope
+def parameter4(priceList):
+    """Determine the slope found by linear regression, and return as a percent of 
+    average stock price."""
 
-def parameter4( priceList ):
+    slope = linRegress(priceList)
+    adjSlope = slope / avg(priceList)
 
-    x = np.array([])
-    count = 0
-
-    for i in range(len(priceList)):
-
-        count = count + 1
-        x = np.append(x, [count])
-
-    slope, yInter = linReg(x, priceList, alpha=0.0000001, epochs=10000)
-
-    return slope
+    return adjSlope * 100
 
 def parMain(fileName):
 
 	colnames = ['date', 'value', 'high', 'low', 'open', 'close', 'volume', 'adjClose']
-#        csvFile = pd.read_csv('../Data/'+fileName, names = colnames, skiprows = 1)
 	csvFile = pd.read_csv(fileName, names = colnames, skiprows = 1)
-#	date = csvFile.date.tolist()
 	value = csvFile.value.tolist()
-#	high = csvFile.high.tolist()
-#	low = csvFile.low.tolist()
-#	open = csvFile.open.tolist()
-#	close = csvFile.close.tolist()
 	volume = csvFile.volume.tolist()
-#	adjClose = csvFile.adjClose.tolist()
 	
 	volaVol = parameter1(volume)
 	volaVal = parameter2(value)
@@ -94,85 +107,4 @@ def parMain(fileName):
 
 	pars = [volaVol, volaVal, buyTenDayLinreg, buyLinreg]
 
-#	print("P1 THOURHG P4\n")
-#	print( volaVol, volaVal, buyTenDayLinreg, buyLinreg)
-
 	return pars
-
-        #Probably should return all params as a list for easy writing to file
-	#return volParam
-#fileListSP = glob.glob("Data/*.csv")
-#fileListVol = glob.glob("VolData/*.csv")
-
-# List all files in the Data Directory
-"""fileListSP = glob.glob("../Data/*.csv")
-fileListVol = glob.glob("../VolData/*.csv")
-
-openFile = open(r"params.txt", "a")
-
-#print("CHECK2")
-
-count = 0
-
-for fileName in fileListSP:
-	
-	count = count + 1
-#	print(count)
-	
-	parsSP = parMain(fileName)
-#	L = ["count: ",  str(count), " P1: ", str(parsSP[0]), " P2: ", str(parsSP[1]), " P3: ", str(parsSP[2]), " P4: ", str(parsSP[3]), "\n"]
-	
-    parsSP[0] = parsSP[0]*100
-    parsSP[1] = parsSP[1]*100
-    parsSP[2] = parsSP[2]*100
-    parsSP[3] = parsSP[3]/10
-
-    volTotal = parsSP[0]+parsSP[1]
-    valTotal = parsSP[2]+parsSP[3]
-
-    if (volTotal > 4) and (valTotal > 50):
-        L = [str(parsSP[0]), " ", str(parsSP[1]), " ", str(parsSP[2]), " ", str(parsSP[3]), " Volatile-Gain", "\n"]
-    elif (volTotal > 4) and (valTotal < 50):
-        L = [str(parsSP[0]), " ", str(parsSP[1]), " ", str(parsSP[2]), " ", str(parsSP[3]), " Volatile-Loss", "\n"]
-    elif (volTotal < 4) and (valTotal > 50):
-        L = [str(parsSP[0]), " ", str(parsSP[1]), " ", str(parsSP[2]), " ", str(parsSP[3]), " Stable-Gain", "\n"]
-    elif (volTotal < 4) and (valTotal < 50):
-        L = [str(parsSP[0]), " ", str(parsSP[1]), " ", str(parsSP[2]), " ", str(parsSP[3]), " Stable-Loss", "\n"]
-
-            #	print("L IS PRINTED\n")
-            #	print(L)
-
-            openFile.writelines(L)
-
-count = 0
-
-for fileName in fileListVol:
-	
-	count = count + 1
-#	print(count)
-
-	parsVol = parMain(fileName)
-        
-        parsVol[0] = parsVol[0]*100
-        parsVol[1] = parsVol[1]*100
-        parsVol[2] = parsVol[2]*100
-        parsVol[3] = parsVol[3]/10
-
-        volTotal = parsVol[0]+parsVol[1]
-        valTotal = parsVol[2]+parsVol[3]
-
-        if (volTotal > 4) and (valTotal > 50):
-            L = [str(parsVol[0]), " ", str(parsVol[1]), " ", str(parsVol[2]), " ", str(parsVol[3]), " Volatile-Gain", "\n"]
-        elif (volTotal > 4) and (valTotal < 50):
-            L = [str(parsVol[0]), " ", str(parsVol[1]), " ", str(parsVol[2]), " ", str(parsVol[3]), " Volatile-Loss", "\n"]
-        elif (volTotal < 4) and (valTotal > 50):
-            L = [str(parsVol[0]), " ", str(parsVol[1]), " ", str(parsVol[2]), " ", str(parsVol[3]), " Stable-Gain", "\n"]
-        elif (volTotal < 4) and (valTotal < 50):
-            L = [str(parsVol[0]), " ", str(parsVol[1]), " ", str(parsVol[2]), " ", str(parsVol[3]), " Stable-Loss", "\n"]
-
-	openFile.writelines(L)
-
-openFile.close()
-
-sys.exit()
-"""
