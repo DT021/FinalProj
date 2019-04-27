@@ -13,11 +13,12 @@ MLarky.h and MLarky.py files in the root directory.  We have packaged them toget
 for improved portability for the end user.  
 
 ### Uses
-There are three main uses for this library.  The user can use the most fundamental programs included to 
-pull down their own stock tickers from the yahoo stock API and use the libraries functions on these stocks.
+There are three main uses for this library. The user can use Python scripts included to 
+pull down their own stock tickers from the yahoo stock API and use the library's functions on these stocks.
 Additionally, the user may perform their own stock classification on a ticker of their choice based on our
 preloaded stock data.  Finally, the user may use our analysis scripts to compare the various implementations 
-of algorithms in the library on any data sets of their choice!
+of algorithms in the library on any data sets of their choice. Also, a user may wish to use these algorithms 
+in a problem of their choice.
 
 ## Linear Regression
 Our Python implementation of linear regression (linReg.py) is a class whose init function 
@@ -27,7 +28,7 @@ can be adjested as the user sees fit, but the error from the model can be quite
 sensitive to the learning rate. To obtain a prediction based on the created linear 
 model, call .predict(xTest), where xTest is a 1D numpy array with test x points.
 
-The C++ implementation (linReg.h) is nearly identical, except all instances of numpy arrays are 
+The C++ implementation (linReg.cpp) is nearly identical, except all instances of numpy arrays are 
 instead vecotrs of floats, and there are addtional functions for acquiring data about 
 the created linear model. More details can be found in the files mentioned above.
 
@@ -37,7 +38,7 @@ numpy array of coordinates to serve as the independent variables and a 1D numpy 
 dependent variables, i.e. classes. To classify a set of independent variables, call .classify(x)
 where x is a 2D numpy array with dimensions that match those of the training data.
 
-The C++ implementation (KNN.h) is almost identical to the Python implementation except all x 
+The C++ implementation (KNN.cpp) is almost identical to the Python implementation except all x 
 arrays are instead vectors of vectors of floats. More details can be found in the files 
 mentioned above.
 
@@ -52,7 +53,7 @@ The .cluster() method executes the KMeans algorithm and produces the estimated g
 The user can determine how many group centers to determine as well as the number of epochs 
 to change the group centers.
 
-The C++ implementation (KMeans.h) is practically identical, except all instances of numpy arrays
+The C++ implementation (KMeans.cpp) is practically identical, except all instances of numpy arrays
 are replaced with a vector of some kind of number, as above.
 
 ## Demonstrations
@@ -76,7 +77,7 @@ Currently, decreasing data wreaks havoc on our linear regression algorithms. We 
 learning rate adjustment based on average slope may be a solution.
 
 Our K-Means implementations may output bad group centers depending on what the group centers 
-were randomly initialized to. While this is a problem inherent to the K-Means algorithm, we 
+were randomly initialized to. While this is a problem inherent to any K-Means algorithm, we 
 feel it is important for users to know that this is a possible outcome and simply requires 
 additional runs (and perhaps a bit of good luck).
 
@@ -90,8 +91,10 @@ run for a new ground-up data set analysis; some stock ticker pulling commands ha
 for brevity.
 
 ### Setup Commands:
+These are commands we used to gather and prepare stock data for our analysis. It is not 
+necessary to run these again.
 
-python3 Setup/iterData.py 
+python3 Setup/iterData.py
 	This command pulls specified stock data from the S&P 500 list of tickers into CSV files.
 
 python3 Parameters/collectData.py
@@ -104,17 +107,20 @@ python3 Parameters/split.py
 
 ### Demo/Analysis:
 
-python3 stockDemo.py
+**python3 stockDemo.py**
 	This command prompts the user to input a ticker for analysis and plotting against all of the
 	training data pre-loaded into our repo databank by the setup code.
 
-./ShellScript/run.sh
+**./ShellScript/run.sh**
 	This bash script performs timing and accuracy analysis of KNN as well as timing analysis of 
 	K Means Clustering for each implementation over a range of K 1:100 and then writes the 
 	data to a series of files to be plotted by our python plotting scripts
 
-python3 KNN/KNNErrorGraph.py
+**python3 KNN/KNNErrorGraph.py**
 	This command plots the KNN accuracy error over the K range for each implementation
 
-python KNN/KNNTiming.py
+**python3 KNN/KNNTiming.py**
 	This command plots the KNN timing over the K range for each implementation
+
+**python3 KMeansClustering/KMCTiming.py**
+	This command plots KMeans timing over the K range for each implementation
