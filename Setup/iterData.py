@@ -35,36 +35,13 @@ while line:
         # Pull from the stock API
         df = web.DataReader(ticker, 'yahoo', startDate, endDate)
  
-        # Invoke to_csv for df dataframe object from DataReader method in the pandas_datareader library
- 
-        # ..\first_yahoo_prices_to_csv_demo.csv must not be open in another app, such as Excel
-        
         fileName = ticker + sYear + sMonth + sDay + '_' + eYear + eMonth + eDay + '.csv'
-
-#        df.to_csv('testWMT00_18.csv')
-#        df.to_csv('Data/'+fileName)
+	
+	#Data file to CSV
         df.to_csv('VolData/'+fileName)
-
-        # Test reading lines
-
-#        colnames = ['date', 'value', 'high', 'low', 'open', 'close', 'volume', 'adjClose']
-#        csvFile = pd.read_csv('Data/'+fileName, names = colnames, skiprows = 1)
-
-#        date = csvFile.date.tolist()
-#        value = csvFile.value.tolist()
-#        high = csvFile.high.tolist()
-#        low = csvFile.low.tolist()
-#        open = csvFile.open.tolist()
-#        close = csvFile.close.tolist()
-#        volume = csvFile.volume.tolist()
-#        adjClose = csvFile.adjClose.tolist()
 
         lineCount = lineCount + 1
 
     line = file.readline()
 
 file.close()
-
-# How to strip last character
-#line = file.readline()
-#line = line[:-1]
