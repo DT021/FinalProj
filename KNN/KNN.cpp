@@ -11,6 +11,9 @@
 #include <set>
 #include <map>
 #include <math.h>
+#include <limits>
+#include <chrono>
+#include <cstdio>
 
 using namespace std;
 
@@ -224,8 +227,16 @@ int main(int argc, char *argv[]){
 	// Allocate memory
 	KNNClassifier* KNNptr = new KNNClassifier(xTrain, yTrain, k);
 
+	// Get timing info	
+	auto start = chrono::high_resolution_clock::now();
+	
 	vector<string> classes = KNNptr->classify(xTest);
 
+	auto stop = chrono::high_resolution_clock::now();
+	auto duration = chrono::duration_cast<chrono::microseconds>(stop-start);
+	unsigned long long duration_microseconds = duration.count();
+
+	fprintf(stderr, "%i %llu ", k, duration_microseconds);
 
 	// Compute percent error
 	double errCount = 0;

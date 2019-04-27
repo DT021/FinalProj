@@ -3,6 +3,7 @@
 echo Starting to bash...
 
 rm KNN/kError.txt
+rm KNN/KNNTiming.txt
 
 for K in {1..100..1}
 
@@ -11,7 +12,7 @@ do
 
 	g++ -o ./KNN/KNN ./KNN/KNN.cpp
 
-	cat Parameters/trainParams.txt Parameters/testParams.txt | ./KNN/KNN $K >> KNN/kError.txt
+	cat Parameters/trainParams.txt Parameters/testParams.txt | ./KNN/KNN $K >> KNN/kError.txt 2>> KNN/KNNTiming.txt
 
 	python2 KNN/KNNTest.py $K >> KNN/kError.txt
 done

@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import axes3d
 from sklearn import neighbors
 import sys
+import time
 
 openTrain = open("Parameters/trainParams.txt", "r")
 openTest = open("Parameters/testParams.txt", "r")
@@ -52,14 +53,34 @@ for line in allLines:
 
 k = int(sys.argv[1])
 
-# Call our python KNN implementation
+timingFile = open(r"KNN/KNNTiming.txt", "a")
+
+# Call our python KNN implementation and time classification
 ourClass = KNN.KNNClassifier(xTrain, yTrain, k)
+
+ourStart = time.time()
+
 ourPred = ourClass.classify(xTest)
 
-# Call the scikit KNN implementation
+ourEnd = time.time()
+
+ourTime = (ourEnd - ourStart)*1000000
+
+# Call the scikit KNN implementation and time classification
 scikitImp = neighbors.KNeighborsClassifier(k)
+
+sciStart = time.time()
+
 scikitImp.fit(xTrain, yTrain)
 scikitPred = scikitImp.predict(xTest)
+
+sciEnd = time.time()
+
+sciTime = (sciEnd - sciStart)*1000000
+
+L = [' ', str(ourTime), ' ', str(sciTime), '\n']
+
+timingFile.writelines(L)
 
 #Determine accuracy of all algorithm implementations based on percent error in classifications
 ourError = 0
@@ -78,3 +99,4 @@ print float(ourError)/float(total)*100, float(scikitError)/float(total)*100
 
 openTrain.close()
 openTest.close()
+timingFile.close()
